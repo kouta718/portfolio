@@ -52,6 +52,19 @@ services:
                 - '${DB_USERNAME}'
             retries: 3
             timeout: 5s
+
+    pgadmin4:
+        image: dpage/pgadmin4
+        ports:
+            - 8888:80
+        volumes:
+            - pgadmin4_data:/var/lib/pgadmin
+        environment:
+            PGADMIN_DEFAULT_EMAIL: 'hello@example.com'
+            PGADMIN_DEFAULT_PASSWORD: 'hello0718'
+        networks:
+            - sail
+
     redis:
         image: 'redis:alpine'
         ports:
@@ -106,6 +119,8 @@ networks:
         driver: bridge
 volumes:
     sail-pgsql:
+        driver: local
+    pgadmin4_data:
         driver: local
     sail-redis:
         driver: local
