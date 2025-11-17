@@ -1,20 +1,26 @@
 <?php
 
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ToolController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
-
-Route::middleware('auth')->group(function () {
+Route::middleware('auth', 'verified')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+
+    // Dashboard（検索フォームを置くページ）
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // 工具データ操作
+    Route::resource('tools', ToolController::class);
+    Route::post('/tools/{tool}/lock', [ToolController::class, 'lock'])->name('tool.lock'); // 編集制限のため
+
 });
 
 require __DIR__.'/auth.php';
