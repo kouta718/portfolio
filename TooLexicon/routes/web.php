@@ -19,8 +19,6 @@ Route::middleware('auth', 'verified')->group(function () {
 
     // 工具データ操作
     Route::resource('tools', ToolController::class);
-    Route::post('/tools/{tool}/lock', [ToolController::class, 'lock'])->name('tool.lock'); // 編集制限のため
-
 });
 
 require __DIR__.'/auth.php';

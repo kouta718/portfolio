@@ -23,17 +23,17 @@ class StoreToolRequest extends FormRequest
     {
         return [
             // toolテーブル
-            'name'     => 'required|string|max:50',
-            'type'     => 'required|string',
-            'maker'    => 'nullable|string|max:30',
-            'size'     => 'nullable|numeric|min:0',
-            'weight'   => 'nullable|numeric',
-            'location' => 'required|string',
-            'status'   => 'required|in:available,broken,lost',
-            'memo'     => 'nullable|string|max:200',
+            'offical_name' => ['required', 'string', 'max:255'],
+            'image_url'    => ['nullable', 'url'],
+            'amazon_url'   => ['nullable', 'url'],
+            'monotaro_url' => ['nullable', 'url'],
+            'usage'        => ['nullable', 'string'],
+            'safety_notes' => ['nullable', 'string'],
 
-            // tool_nameテーブル
-            
+            // tool_namesテーブル
+            'name'      => ['required', 'string', 'max:255'],
+            'name_type' => ['nullable', 'string'],
+            'category'  => ['nullable', 'string'],
         ];
     }
 }

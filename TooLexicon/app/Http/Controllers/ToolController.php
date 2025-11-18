@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests\ToolStoreRequest;
+use App\Models\Tool;
 
 class ToolController extends Controller
 {
@@ -11,7 +13,8 @@ class ToolController extends Controller
      */
     public function index()
     {
-        //
+        $tools=Tool::paginate(10);
+        return view('tool.index', compact('tools'));
     }
 
     /**
@@ -19,7 +22,7 @@ class ToolController extends Controller
      */
     public function create()
     {
-        //
+        return view('tool.create');
     }
 
     /**
