@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreToolRequest;
 use App\Models\Tool;
+use Illuminate\Support\Arr;
 
 class ToolController extends Controller
 {
@@ -30,8 +30,8 @@ class ToolController extends Controller
      */
     public function store(StoreToolRequest $request)
     {
-        $validated = $request->validated();
-        Tool::create($validated);
+        $toolAttributes = $this->extractToolAttributes($request);
+        Tool::create($toolAttributes);
 
         return redirect()->route('tools.index')
             ->with('success', '工具を登録しました');
@@ -58,8 +58,8 @@ class ToolController extends Controller
      */
     public function update(StoreToolRequest $request, Tool $tool)
     {
-        $validated = $request->validated();
-        Tool::create($validated);
+        $toolAttributes = $this->extractToolAttributes($request);
+        $tool->update($toolAttributes);
 
         return redirect()->route('tools.show', $tool)
             ->with('success', '工具のデータを更新しました');
@@ -72,7 +72,28 @@ class ToolController extends Controller
     {
         $tool->delete();
 
-    return redirect()->route('tools.index')
-        ->with('success', '削除しました');
+        return redirect()->route('tools.index')
+            ->with('success', '削除しました');
+    }
+
+    /**
+     * toolsテーブルに存在するカラムのみを抽出する。
+     */
+    private function extractToolAttributes(StoreToolRequest $request): array
+    {
+        $validated = $request->validated();
+
+        if (isset($validated['offical_name']) && ! isset($validated['official_name'])) {
+            $validated['official_name'] = $validated['offical_name'];
+        }
+
+        return Arr::only($validated, [
+            'official_name',
+            'image_url',
+            'amazon_url',
+            'monotaro_url',
+            'usage',
+            'safety_notes',
+        ]);
     }
 }

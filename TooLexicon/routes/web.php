@@ -15,7 +15,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Dashboard（検索フォームを置くページ）
-    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::get('/dashboard', [ToolController::class, 'index'])->name('dashboard'); // DashboardControllerを検索機能つける時に構築する
 
     // 工具データ操作
     Route::resource('tools', ToolController::class);

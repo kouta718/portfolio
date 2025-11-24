@@ -5,25 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Tool extends Model
+class ToolName extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'official_name',
-        'image_url',
-        'amazon_url',
-        'monotaro_url',
-        'usage',
-        'safety_notes',
+        'name',
+        'name_type',
+        'category',
     ];
 
     protected $casts = [
         //
     ];
 
-    public function names()
+    public function tool()
     {
-        return $this->hasMany(ToolName::class);
+        return $this->belongsTo(Tool::class);
     }
 }
