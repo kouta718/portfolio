@@ -11,6 +11,7 @@ class Tool extends Model
 
     protected $fillable = [
         'official_name',
+        'category',
         'image_url',
         'amazon_url',
         'monotaro_url',
@@ -22,6 +23,7 @@ class Tool extends Model
         //
     ];
 
+    //tool : tool_name
     public function names()
     {
         return $this->hasMany(ToolName::class);

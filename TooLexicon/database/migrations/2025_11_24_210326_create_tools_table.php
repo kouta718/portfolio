@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('tools', function (Blueprint $table) {
             $table->id();
             $table->string('official_name', 255);
+            $table->string('category')->nullable();
             $table->string('image_url')->nullable();
             $table->string('amazon_url')->nullable();
             $table->string('monotaro_url')->nullable();

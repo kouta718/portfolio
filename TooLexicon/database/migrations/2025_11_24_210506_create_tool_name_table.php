@@ -13,9 +13,10 @@ return new class extends Migration
     {
         Schema::create('tool_name', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null'); // ユーザーが削除されてもデータは残す
+            $table->foreignId('tool_id')->constrained()->cascadeOnDelete();// 親が削除されたら子も削除
             $table->string('name', 255);
-            $table->string('name_type')->nullable();
-            $table->string('category')->nullable();
+            $table->boolean('is_primary')->default(false);
             $table->timestamps();
         });
     }

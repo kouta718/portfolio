@@ -23,17 +23,18 @@ class StoreToolRequest extends FormRequest
     {
         return [
             // toolテーブル
-            'offical_name' => ['required', 'string', 'max:255'],
-            'image_url'    => ['nullable', 'url'],
-            'amazon_url'   => ['nullable', 'url'],
-            'monotaro_url' => ['nullable', 'url'],
-            'usage'        => ['nullable', 'string'],
-            'safety_notes' => ['nullable', 'string'],
+            'official_name' => ['required', 'string', 'max:255'],
+            'category'      => ['nullable', 'string'],
+            'image_url'     => ['nullable', 'url'],
+            'amazon_url'    => ['nullable', 'url'],
+            'monotaro_url'  => ['nullable', 'url'],
+            'usage'         => ['nullable', 'string'],
+            'safety_notes'  => ['nullable', 'string'],
 
-            // tool_namesテーブル
-            'name'      => ['required', 'string', 'max:255'],
-            'name_type' => ['nullable', 'string'],
-            'category'  => ['nullable', 'string'],
+            // tool_namesテーブル（複数保存対応）
+            'tool_names' => ['required', 'array', 'min:1'],
+            'tool_names.*.name' => ['required', 'string', 'max:255'],
+            'tool_names.*.is_primary' => ['nullable', 'boolean'],
         ];
     }
 }

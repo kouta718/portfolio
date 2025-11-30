@@ -45,4 +45,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    //user : tool_name
+    public function toolNames()
+    {
+        return $this->hasMany(ToolName::class);
+    }
 }
