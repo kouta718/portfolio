@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-700 dark:text-gray-300 leading-tight">
             一覧表示
         </h2>
     </x-slot>
@@ -18,7 +18,7 @@
                 {{-- 正式名称 --}}
                 <h1 class="p-4 text-lg font-semibold">
                     正式名称:
-                    <a href="{{ route('tools.show', $tool) }}" class="text-blue-600 hover:underline">
+                    <a href="{{ route('tool.show', $tool) }}" class="text-blue-600 hover:underline">
                         {{ $tool->official_name }}
                     </a>
                 </h1>

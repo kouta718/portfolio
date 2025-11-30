@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-700 dark:text-gray-300 leading-tight">
             編集
         </h2>
     </x-slot>
@@ -10,7 +10,7 @@
                 {{session('message')}}
             </dev>
         @endif
-        <form method="POST" action="{{ route('tools.update', $tool)}}">@csrf
+        <form method="POST" action="{{ route('tool.update', $tool)}}">@csrf
             @method('patch')
 
             {{-- 正式名称 --}}

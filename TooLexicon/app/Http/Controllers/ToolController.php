@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Http\Requests\StoreToolRequest;
 use App\Models\Tool;
 use App\Models\ToolName;
@@ -122,7 +121,7 @@ class ToolController extends Controller
             }
         });
 
-        return redirect()->route('tools.show', $tool)
+        return redirect()->route('tool.show', $tool)
             ->with('success', '工具のデータを更新しました');
     }
 
@@ -133,7 +132,7 @@ class ToolController extends Controller
     {
         $tool->delete();
 
-        return redirect()->route('tools.index')
+        return redirect()->route('tool.index')
             ->with('success', '削除しました');
     }
 }

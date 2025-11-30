@@ -1,10 +1,10 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 leading-tight">
+        <h2 class="font-semibold text-xl text-gray-700 dark:text-gray-300 leading-tight">
             個別表示
         </h2>
     </x-slot>
-    <div class="mx-auto px-6">
+    <div class="max-w-7xl mx-auto px-6">
         @if(session('message'))
         <div class="text-red-600 font-bold">
             {{session('message')}}
@@ -15,12 +15,12 @@
                 {{$tool->name}}
             </h1>
             <div class="text-right flex">
-                <a href="{{route('tools.edit', $tool)}}" class="flex-1">
+                <a href="{{route('tool.edit', $tool)}}" class="flex-1">
                     <x-primary-button>
                         編集
                     </x-primary-button>
                 </a>
-                <form method="POST" action="{{route('tools.destroy', $tool)}}" class="flex-2">
+                <form method="POST" action="{{route('tool.destroy', $tool)}}" class="flex-2">
                     @csrf
                     @method('delete')
                     <x-primary-button class="bg-red-700 ml-2">
