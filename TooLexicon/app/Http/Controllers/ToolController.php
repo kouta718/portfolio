@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Http\Requests\StoreToolRequest;
 use App\Models\Tool;
 use App\Models\ToolName;
@@ -70,7 +71,7 @@ class ToolController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Tool $tool)
+    public function show(Request $request, Tool $tool)
     {
         return view('tool.show', compact('tool'));
     }
