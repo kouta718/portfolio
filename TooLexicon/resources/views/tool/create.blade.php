@@ -37,7 +37,7 @@
                 <x-input-label for="name" class="font-semibold">別名（呼び名）</x-input-label>
 
                 {{-- 全体コンテナ --}}
-                <div id="tool-names-container" class="space-y-4">
+                <template id="tool-names-container" class="space-y-4">
 
                     {{-- 1つ目の行 --}}
                     <div class="tool-name-item flex items-start gap-4 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
@@ -65,20 +65,53 @@
                         </label>
 
                         {{-- 削除ボタン --}}
-                        <x-primary-button class="shrink-0" onclick="removeToolName(this)">
+                        <button type="button" class="shrink-0 text-red-600 hover:text-red-700 remove-tool-name">
                             削除
-                        </x-primary-button>
+                        </button>
 
                     </div>
-                </div>
+
+                    {{-- ２つ目以降の行 --}}
+                    <template id="tool-name-template">
+                        <div class="tool-name-item flex items-start gap-4 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+
+                            {{-- テキスト入力 --}}
+                            <div class="flex-1">
+                                <x-text-input
+                                    type="text"
+                                    name="tool_names[__index__][name]"
+                                    class="w-full"
+                                    value="{{ old('tool_names.__index__.name') }}"
+                                    placeholder="別名を入力"
+                                />
+                                <x-input-error :messages="$errors->get('tool_names.__index__.name')" class="mt-2" />
+                            </div>
+
+                            {{-- 代表チェック --}}
+                            <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                                <input type="checkbox"
+                                    name="tool_names[__index__][is_primary]"
+                                    value="1"
+                                    class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600"
+                                    {{ old('tool_names.__index__.is_primary') ? 'checked' : '' }}>
+                                <span>代表</span>
+                            </label>
+
+                            {{-- 削除ボタン --}}
+                            <button type="button" class="shrink-0 text-red-600 hover:text-red-700 remove-tool-name">
+                                削除
+                            </button>
+
+                        </div>
+                    </template>
 
                     {{-- 追加ボタン --}}
-                    <x-primary-button onclick="addToolName()">
+                    <button type="button" class="text-blue-600 hover:text-blue-700 inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 add-tool-name" id="add-tool-name-button">
                         + 別名を追加
-                    </x-primary-button>
+                    </button>
 
                     <x-input-error :messages="$errors->get('tool_names')" class="mt-2" />
-                </div>
+                </template>
 
             {{-- 使用用途 --}}
             <div class="w-full flex flex-col">
@@ -103,7 +136,7 @@
             </x-primary-button>
         </form>
     </div>
-    <script src="{{ asset('js/toolplus.js') }}"></script>
+    <script src="{{ asset('resources/js/addToolNames.js') }}"></script>
 </x-app-layout>
 
 
