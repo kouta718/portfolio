@@ -65,7 +65,10 @@
                         </label>
 
                         {{-- 削除ボタン --}}
-                        <button type="button" class="shrink-0 text-red-600 hover:text-red-700 remove-tool-name">
+                        <button type="button" class="shrink-0 text-red-600 hover:text-red-700 inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 remove-tool-name">
+                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                            </svg>
                             削除
                         </button>
 
@@ -98,7 +101,10 @@
                             </label>
 
                             {{-- 削除ボタン --}}
-                            <button type="button" class="shrink-0 text-red-600 hover:text-red-700 remove-tool-name">
+                            <button type="button" class="shrink-0 text-red-600 hover:text-red-700 inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 remove-tool-name">
+                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
                                 削除
                             </button>
 
@@ -136,7 +142,7 @@
             </x-primary-button>
         </form>
     </div>
-    <script src="{{ asset('resources/js/addToolNames.js') }}"></script>
+    @vite('resources/js/addToolNames.js')
 </x-app-layout>
 
 
