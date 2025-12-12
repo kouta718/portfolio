@@ -18,7 +18,7 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/dashboard', [ToolController::class, 'index'])->name('dashboard'); // DashboardControllerを検索機能つける時に構築する
 
     // 工具データ操作
-    Route::resource('tool', ToolController::class);
+    Route::resource('tools', ToolController::class);
 });
 
 require __DIR__.'/auth.php';

@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('tool_name', function (Blueprint $table) {
+        Schema::create('tool_names', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null'); // ユーザーが削除されてもデータは残す
             $table->foreignId('tool_id')->constrained()->cascadeOnDelete();// 親が削除されたら子も削除
@@ -26,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('tool_name');
+        Schema::dropIfExists('tool_names');
     }
 };

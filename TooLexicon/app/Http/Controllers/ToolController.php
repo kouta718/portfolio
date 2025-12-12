@@ -17,7 +17,7 @@ class ToolController extends Controller
     public function index()
     {
         $tools=Tool::paginate(10);
-        return view('tool.index', compact('tools'));
+        return view('tools.index', compact('tools'));
     }
 
     /**
@@ -25,7 +25,7 @@ class ToolController extends Controller
      */
     public function create()
     {
-        return view('tool.create');
+        return view('tools.create');
     }
 
     /**
@@ -73,7 +73,9 @@ class ToolController extends Controller
      */
     public function show(Request $request, Tool $tool)
     {
-        return view('tool.show', compact('tool'));
+        // $tool = Tool::with('toolNames')->findOrFail($id);
+
+        return view('tools.show', compact('tool'));
     }
 
     /**
@@ -81,7 +83,9 @@ class ToolController extends Controller
      */
     public function edit(Tool $tool)
     {
-        return view('tool.edit', compact('tool'));
+        // $tool = Tool::with('toolNames')->findOrFail($id);
+
+        return view('tools.edit', compact('tool'));
     }
 
     /**
@@ -107,7 +111,7 @@ class ToolController extends Controller
             $tool->update($toolData);
 
             // 既存のToolNameを削除
-            $tool->names()->delete();
+            $tool->toolNames()->delete();
 
             // ToolNameを複数保存
             if (isset($validated['tool_names']) && is_array($validated['tool_names'])) {
@@ -122,7 +126,7 @@ class ToolController extends Controller
             }
         });
 
-        return redirect()->route('tool.show', $tool)
+        return redirect()->route('tools.show', $tool)
             ->with('success', '工具のデータを更新しました');
     }
 
@@ -133,7 +137,7 @@ class ToolController extends Controller
     {
         $tool->delete();
 
-        return redirect()->route('tool.index')
+        return redirect()->route('tools.index')
             ->with('success', '削除しました');
     }
 }

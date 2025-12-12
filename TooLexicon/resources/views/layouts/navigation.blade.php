@@ -12,10 +12,10 @@
 
                 <!-- Navigation Links -->
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
-                    <x-nav-link :href="route('tool.index')" :active="request()->routeIs('tool.index')">
+                    <x-nav-link :href="route('tools.index')" :active="request()->routeIs('tool.index')">
                         工具一覧
                     </x-nav-link>
-                    <x-nav-link :href="route('tool.create')" :active="request()->routeIs('tool.create')">
+                    <x-nav-link :href="route('tools.create')" :active="request()->routeIs('tool.create')">
                         新規登録
                     </x-nav-link>
                 </div>
@@ -70,10 +70,10 @@
     <!-- Responsive Navigation Menu -->
     <div :class="{'block': open, 'hidden': ! open}" class="hidden sm:hidden">
         <div class="pt-2 pb-3 space-y-1">
-            <x-nav-link :href="route('tool.index')" :active="request()->routeIs('tool.index')">
+            <x-nav-link :href="route('tools.index')" :active="request()->routeIs('tool.index')">
                 工具一覧
             </x-nav-link>
-            <x-nav-link :href="route('tool.create')" :active="request()->routeIs('tool.create')">
+            <x-nav-link :href="route('tools.create')" :active="request()->routeIs('tool.create')">
                 新規登録
             </x-nav-link>
         </div>

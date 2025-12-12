@@ -11,16 +11,16 @@
         </div>
         @endif
         <div class="mt-4 p-4">
-            <h1 class="text-lg font-semibold">
-                {{$tool->name}}
+            <h1 class="text-lg font-semibold ">
+                {{$tool->official_name}}
             </h1>
             <div class="text-right flex">
-                <a href="{{route('tool.edit', $tool)}}" class="flex-1">
+                <a href="{{route('tools.edit', $tool)}}" class="flex-1">
                     <x-primary-button>
                         編集
                     </x-primary-button>
                 </a>
-                <form method="POST" action="{{route('tool.destroy', $tool)}}" class="flex-2">
+                <form method="POST" action="{{route('tools.destroy', $tool)}}" class="flex-2">
                     @csrf
                     @method('delete')
                     <x-primary-button class="bg-red-700 ml-2">
@@ -30,37 +30,33 @@
             </div>
 
             {{-- 別名（呼び名） --}}
-            <label class="font-semibold mt-4 block">別名（呼び名）</label>
-            <p class="mt-2 whitespace-pre-line">
-                {{ $tool_name->name }}
-            </p>
-
-            {{-- 代表の呼び名：true/false --}}
-            <label class="font-semibold mt-4 block">代表の呼び名</label>
-            <p class="mt-2 whitespace-pre-line">
-                {{ $tool_name->is_primary }}
-            </p>
+            @foreach($tool->toolNames as $name)
+            <x-input-label class="font-semibold mt-4 block">別名（呼び名）</x-input-label>
+            <x-text-block class="mt-2 whitespace-pre-line">
+                {{ $name->name }}
+            </x-text-block>
+            @endforeach
 
             {{-- カテゴリ --}}
-            <label class="font-semibold mt-4 block">カテゴリ</label>
-            <p class="mt-2 whitespace-pre-line">
-                {{ $tool_name->category }}
-            </p>
+            <x-input-label class="font-semibold mt-4 block">カテゴリ</x-input-label>
+            <x-text-block class="mt-2 whitespace-pre-line">
+                {{ $tool->category }}
+            </x-text-block>
 
             {{-- 使用用途 --}}
-            <label class="font-semibold mt-4 block">使用用途</label>
-            <p class="mt-2 whitespace-pre-line">
+            <x-input-label class="font-semibold mt-4 block">使用用途</x-input-label>
+            <x-text-block class="mt-2 whitespace-pre-line">
                 {{ $tool->usage }}
-            </p>
+            </x-text-block>
 
             {{-- 安全上の注意 --}}
-            <label class="font-semibold mt-4 block">安全上の注意</label>
-            <p class="mt-2 whitespace-pre-line">
+            <x-input-label class="font-semibold mt-4 block">安全上の注意</x-input-label>
+            <x-text-block class="mt-2 whitespace-pre-line">
                 {{ $tool->safety_notes }}
-            </p>
+            </x-text-block>
 
             <div class="text-sm font-semibold flex flex-row-reverse">
-                <p> {{$tool->created_at}} </p>
+                <x-text-block> {{$tool->created_at}} </x-text-block>
             </div>
         </div>
     </div>

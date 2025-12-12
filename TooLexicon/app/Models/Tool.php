@@ -23,8 +23,8 @@ class Tool extends Model
         //
     ];
 
-    //tool : tool_name
-    public function names()
+    // tool : tool_name
+    public function toolNames()
     {
         return $this->hasMany(ToolName::class);
     }
