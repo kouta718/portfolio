@@ -16,7 +16,7 @@ class ToolController extends Controller
      */
     public function index()
     {
-        $tools=Tool::paginate(10);
+        $tools = Tool::with('toolNames')->paginate(10);
         return view('tools.index', compact('tools'));
     }
 
@@ -73,7 +73,7 @@ class ToolController extends Controller
      */
     public function show(Request $request, Tool $tool)
     {
-        // $tool = Tool::with('toolNames')->findOrFail($id);
+        $tool->load('toolNames');
 
         return view('tools.show', compact('tool'));
     }
@@ -83,7 +83,7 @@ class ToolController extends Controller
      */
     public function edit(Tool $tool)
     {
-        // $tool = Tool::with('toolNames')->findOrFail($id);
+        $tool->load('toolNames');
 
         return view('tools.edit', compact('tool'));
     }

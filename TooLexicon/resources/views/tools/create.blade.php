@@ -5,9 +5,9 @@
         </h2>
     </x-slot>
     <div class="max-w-7xl mx-auto px-6">
-        @if(session('message'))
-            <div class="text-red-600 font-bold">
-                {{session('message')}}
+        @if(session('success'))
+            <div class="mb-4 p-4 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-300 rounded-lg font-semibold">
+                {{ session('success') }}
             </div>
         @endif
         <form method="POST" action="{{ route('tools.store')}}">@csrf
@@ -37,7 +37,7 @@
                 <x-input-label for="name" class="font-semibold">別名（呼び名）</x-input-label>
 
                 {{-- 全体コンテナ --}}
-                <div id="tool-names-container" class="space-y-4">
+                <div id="tool-names-container" class="space-y-4" data-count="1">
 
                     {{-- 1つ目の行 --}}
                     <div class="tool-name-item flex items-start gap-4 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
@@ -65,12 +65,9 @@
                         </label>
 
                         {{-- 削除ボタン --}}
-                        <button type="button" class="shrink-0 text-red-600 hover:text-red-700 inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 remove-tool-name">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
+                        <x-danger-button class="remove-tool-name">
                             削除
-                        </button>
+                        </x-danger-button>
 
                     </div>
 
@@ -101,12 +98,9 @@
                             </label>
 
                             {{-- 削除ボタン --}}
-                            <button type="button" class="shrink-0 text-red-600 hover:text-red-700 inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 remove-tool-name">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
+                            <x-danger-button class="remove-tool-name">
                                 削除
-                            </button>
+                            </x-danger-button>
 
                         </div>
                     </template>

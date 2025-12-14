@@ -5,9 +5,9 @@
         </h2>
     </x-slot>
     <div class="max-w-7xl mx-auto px-6">
-        @if(session('message'))
-            <div class="text-red-600 font-bold">
-                {{session('message')}}
+        @if(session('success'))
+            <div class="mb-4 p-4 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-300 rounded-lg font-semibold">
+                {{ session('success') }}
             </div>
         @endif
         <form method="POST" action="{{ route('tools.update', $tool)}}">@csrf
@@ -33,15 +33,16 @@
                 </x-text-input>
             </div>
 
-                        {{-- 別名（呼び名） --}}
+            
+            {{-- 別名（呼び名） --}}
             <div class="mt-6 space-y-4">
                 <x-input-label for="name" class="font-semibold">別名（呼び名）</x-input-label>
 
-                {{-- 全体コンテナ --}}
-                <div id="tool-names-container" class="space-y-4">
+                {{-- 全体コンテナ 最低1件のフォームを表示する --}}
+                <div id="tool-names-container" class="space-y-4" data-count="{{ max(count($tool->toolNames), 1) }}"> 
 
-                    {{-- 1つ目の行 --}}
-                    @foreach($tool->toolNames as $i => $name)
+                    {{-- 既存のtoolNamesを表示 --}}
+                    @forelse($tool->toolNames as $i => $name)
                     <div class="tool-name-item flex items-start gap-4 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
 
                         {{-- テキスト入力 --}}
@@ -67,15 +68,37 @@
                         </label>
 
                         {{-- 削除ボタン --}}
-                        <button type="button" class="shrink-0 text-red-600 hover:text-red-700 inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 remove-tool-name">
-                            <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                            </svg>
+                        <x-danger-button class="remove-tool-name">
                             削除
-                        </button>
+                        </x-danger-button>
 
                     </div>
-                    @endforeach
+                    @empty
+                    {{-- toolNamesが空の場合の初期行 --}}
+                    <div class="tool-name-item flex items-start gap-4 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="flex-1">
+                            <x-text-input
+                                type="text"
+                                name="tool_names[0][name]"
+                                class="w-full"
+                                value="{{ old('tool_names.0.name') }}"
+                                placeholder="別名を入力"
+                            />
+                            <x-input-error :messages="$errors->get('tool_names.0.name')" class="mt-2" />
+                        </div>
+                        <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                            <input type="checkbox"
+                                name="tool_names[0][is_primary]"
+                                value="1"
+                                class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600"
+                                {{ old('tool_names.0.is_primary') ? 'checked' : '' }}>
+                            <span>代表</span>
+                        </label>
+                        <x-danger-button class="remove-tool-name">
+                            削除
+                        </x-danger-button>
+                    </div>
+                    @endforelse
 
                     {{-- ２つ目以降のテンプレート --}}
                     <template id="tool-name-template">
@@ -104,12 +127,9 @@
                             </label>
 
                             {{-- 削除ボタン --}}
-                            <button type="button" class="shrink-0 text-red-600 hover:text-red-700 inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 remove-tool-name">
-                                <svg class="w-4 h-4 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
-                                </svg>
+                            <x-danger-button class="remove-tool-name">
                                 削除
-                            </button>
+                            </x-danger-button>
 
                         </div>
                     </template>

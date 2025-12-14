@@ -1,62 +1,80 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-700 dark:text-gray-300 leading-tight">
-            個別表示
+            詳細表示
         </h2>
     </x-slot>
-    <div class="max-w-7xl mx-auto px-6">
-        @if(session('message'))
-        <div class="text-red-600 font-bold">
-            {{session('message')}}
+    <div class="max-w-7xl mx-auto px-6 w-full">
+        @if(session('success'))
+        <div class="mb-4 p-4 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-300 rounded-lg font-semibold">
+            {{ session('success') }}
         </div>
         @endif
         <div class="mt-4 p-4">
-            <h1 class="text-lg font-semibold ">
-                {{$tool->official_name}}
-            </h1>
-            <div class="text-right flex">
-                <a href="{{route('tools.edit', $tool)}}" class="flex-1">
-                    <x-primary-button>
-                        編集
-                    </x-primary-button>
-                </a>
-                <form method="POST" action="{{route('tools.destroy', $tool)}}" class="flex-2">
-                    @csrf
-                    @method('delete')
-                    <x-primary-button class="bg-red-700 ml-2">
-                        削除
-                    </x-primary-button>
-                </form>
+            <div class="flex">
+                <h1 class="text-xl font-semibold text-gray-700 dark:text-gray-300 flex-1">
+                    {{$tool->official_name}}
+                </h1>
+                <div class="text-right flex-2 flex">
+                    <a href="{{route('tools.edit', $tool)}}" class="flex-1">
+                        <x-primary-button>
+                            編集
+                        </x-primary-button>
+                    </a>
+                    <form method="POST" action="{{route('tools.destroy', $tool)}}" class="flex-2">
+                        @csrf
+                        @method('delete')
+                        <x-danger-button class="ml-2">
+                            削除
+                        </x-danger-button>
+                    </form>
+                </div>
             </div>
 
+            <hr class="w-full mt-2">
+
             {{-- 別名（呼び名） --}}
-            @foreach($tool->toolNames as $name)
-            <x-input-label class="font-semibold mt-4 block">別名（呼び名）</x-input-label>
-            <x-text-block class="mt-2 whitespace-pre-line">
-                {{ $name->name }}
-            </x-text-block>
-            @endforeach
+            <div class="p-2 mt-4 rounded-md bg-gray-200 dark:bg-gray-800">
+                <x-input-label class="p-1 font-semibold block">別名</x-input-label>
+                <div class="flex">
+                    @foreach($tool->toolNames as $i => $name)
+                        <x-text-block class="p-2 mr-2">
+                            {{ $name->name }}
+                        </x-text-block>
+                    @endforeach
+                </div>
+            </div>
+            
 
             {{-- カテゴリ --}}
-            <x-input-label class="font-semibold mt-4 block">カテゴリ</x-input-label>
-            <x-text-block class="mt-2 whitespace-pre-line">
-                {{ $tool->category }}
-            </x-text-block>
+            <div class="p-2 mt-4 rounded-md bg-gray-200 dark:bg-gray-800">
+                <x-input-label class="p-1 font-semibold block">カテゴリ</x-input-label>
+                <x-text-block class="p-1 py-2">
+                    {{ $tool->category ?? '未設定' }}
+                </x-text-block>
+            </div>
+            
 
             {{-- 使用用途 --}}
-            <x-input-label class="font-semibold mt-4 block">使用用途</x-input-label>
-            <x-text-block class="mt-2 whitespace-pre-line">
-                {{ $tool->usage }}
-            </x-text-block>
+            <div class="p-2 mt-4 rounded-md bg-gray-200 dark:bg-gray-800">
+                <x-input-label class="p-1 font-semibold block">使用用途</x-input-label>
+                <x-text-block class="p-1 py-2">
+                    {{ $tool->usage ?? '未設定' }}
+                </x-text-block>
+            </div>
 
             {{-- 安全上の注意 --}}
-            <x-input-label class="font-semibold mt-4 block">安全上の注意</x-input-label>
-            <x-text-block class="mt-2 whitespace-pre-line">
-                {{ $tool->safety_notes }}
-            </x-text-block>
+            <div class="p-2 mt-4 rounded-md bg-gray-200 dark:bg-gray-800">
+                <x-input-label class="p-1 font-semibold block">安全上の注意</x-input-label>
+                <x-text-block class="p-1 py-2">
+                    {{ $tool->safety_notes ?? '未設定' }}
+                </x-text-block>
+            </div>
 
-            <div class="text-sm font-semibold flex flex-row-reverse">
-                <x-text-block> {{$tool->created_at}} </x-text-block>
+            <div class="mt-4 text-sm font-semibold flex flex-row-reverse">
+                <p class="font-medium text-sm text-gray-700 dark:text-gray-300">
+                    {{$tool->created_at}}
+                </p>
             </div>
         </div>
     </div>
