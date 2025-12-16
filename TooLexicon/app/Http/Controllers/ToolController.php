@@ -14,10 +14,18 @@ class ToolController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $tools = Tool::with('toolNames')->paginate(10);
-        return view('tools.index', compact('tools'));
+        // 検索キーワードを取得
+        $keyword = $request->input('keyword');
+
+        // クエリの実行とぺージネーション
+        $tools = Tool::search($keyword)
+            ->orderBy('created_at', 'desc')
+            ->paginate(10);
+
+        // ビューに変数を渡して表示
+        return view('tools.index', compact('tools', 'keyword'));
     }
 
     /**

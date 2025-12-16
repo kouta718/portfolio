@@ -44,7 +44,6 @@
                     @endforeach
                 </div>
             </div>
-            
 
             {{-- カテゴリ --}}
             <div class="p-2 mt-4 rounded-md bg-gray-200 dark:bg-gray-800">
@@ -53,7 +52,6 @@
                     {{ $tool->category ?? '未設定' }}
                 </x-text-block>
             </div>
-            
 
             {{-- 使用用途 --}}
             <div class="p-2 mt-4 rounded-md bg-gray-200 dark:bg-gray-800">

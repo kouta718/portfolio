@@ -23,6 +23,17 @@ class Tool extends Model
         //
     ];
 
+    // 検索用のスコープを定義
+    public function scopeSearch($query, $keyword)
+    {
+    // キーワードが空の場合は全件取得
+    if (empty($keyword)) {
+        return $query;
+    }
+    // 名前で部分一致検索
+    return $query->where('official_name', 'like', "%{$keyword}%");
+    }
+
     // tool : tool_name
     public function toolNames()
     {
