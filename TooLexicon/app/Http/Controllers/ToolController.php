@@ -47,6 +47,7 @@ class ToolController extends Controller
         DB::transaction(function () use ($validated) {
             // Toolテーブルのデータを抽出
             $toolData = [
+                'user_id'       => Auth::id(),
                 'official_name' => $validated['official_name'],
                 'category' => $validated['category'] ?? null,
                 'image_url' => $validated['image_url'] ?? null,
@@ -107,6 +108,7 @@ class ToolController extends Controller
         DB::transaction(function () use ($validated, $tool) {
             // Toolテーブルのデータを更新
             $toolData = [
+                'user_id'       => Auth::id(),
                 'official_name' => $validated['official_name'],
                 'category' => $validated['category'] ?? null,
                 'image_url' => $validated['image_url'] ?? null,

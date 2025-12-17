@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('tools', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null'); // ユーザーが削除されてもデータは残す
             $table->string('official_name', 255);
             $table->string('category')->nullable();
             $table->string('image_url')->nullable();

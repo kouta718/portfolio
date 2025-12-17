@@ -10,6 +10,7 @@ class Tool extends Model
     use HasFactory;
 
     protected $fillable = [
+        'user_id',
         'official_name',
         'category',
         'image_url',
@@ -22,6 +23,14 @@ class Tool extends Model
     protected $casts = [
         //
     ];
+
+    /**
+     * tool : user
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 
     // 検索用のスコープを定義
     public function scopeSearch($query, $keyword)

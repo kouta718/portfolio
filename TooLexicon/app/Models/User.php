@@ -46,6 +46,14 @@ class User extends Authenticatable
         ];
     }
 
+    /**
+     * user : tool
+     */
+    public function tools()
+    {
+        return $this->hasMany(Tool::class);
+    }
+
     //user : tool_name
     public function toolNames()
     {

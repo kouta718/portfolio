@@ -39,7 +39,7 @@
             @if($tools->isEmpty())
                 <p>検索結果が見つかりませんでした。</p>
             @else
-                <div class="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3">
+                <div class="grid gap-6 grid-cols-1 sm:grid-cols-2">
                     @foreach($tools as $tool)
                     <div class="mt-4 p-6 border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-2xl shadow-sm">
 
@@ -64,13 +64,10 @@
                             </div>
                         </div>
 
-                        {{-- 投稿日時 & 作成ユーザー --}}
+                        {{-- 登録日時 --}}
                         <div class="p-2 text-sm text-gray-600 dark:text-gray-400 font-semibold">
                             <p>
                                 {{ $tool->created_at->format('Y-m-d') }}
-                                @if($tool->user)
-                                    / {{ $tool->user->name }}
-                                @endif
                             </p>
                         </div>
                     </div>

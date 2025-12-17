@@ -69,6 +69,7 @@
                 </x-text-block>
             </div>
 
+            {{-- 登録日時 --}}
             <div class="mt-4 text-sm font-semibold flex flex-row-reverse">
                 <p class="font-medium text-sm text-gray-700 dark:text-gray-300">
                     {{$tool->created_at}}
