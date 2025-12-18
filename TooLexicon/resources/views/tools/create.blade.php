@@ -4,7 +4,7 @@
             新規登録
         </h2>
     </x-slot>
-    <div class="max-w-7xl mx-auto px-6">
+    <div class="max-w-7xl mx-auto m-4 p-6 w-full border border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-gray-800 rounded-md">
         @if(session('success'))
             <div class="mb-4 p-4 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-300 rounded-lg font-semibold">
                 {{ session('success') }}
@@ -40,7 +40,7 @@
                 <div id="tool-names-container" class="space-y-4" data-count="1">
 
                     {{-- 1つ目の行 --}}
-                    <div class="tool-name-item flex items-start gap-4 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    <div class="tool-name-item flex items-start gap-4 p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
 
                         {{-- テキスト入力 --}}
                         <div class="flex-1">
@@ -73,7 +73,7 @@
 
                     {{-- ２つ目以降のテンプレート --}}
                     <template id="tool-name-template">
-                        <div class="tool-name-item flex items-start gap-4 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                        <div class="tool-name-item flex items-start gap-4 p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
 
                             {{-- テキスト入力 --}}
                             <div class="flex-1">

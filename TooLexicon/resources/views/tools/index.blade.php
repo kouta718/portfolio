@@ -21,7 +21,7 @@
         </div> --}}
 
         {{-- 検索機能 --}}
-        <form action="{{ route('tools.index') }}" method="GET" class="m-4 p-4 bg-gray-700 rounded-md">
+        <form action="{{ route('tools.index') }}" method="GET" class="m-4 p-4 border border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-gray-700 rounded-md">
             <div class="px-4 w-auto flex flex-row item-center">
                 <x-input-error :messages="$errors->get('keyword')" class="mt-2" />
                 <x-text-input type="text" name="keyword" id="keyword"
@@ -41,7 +41,7 @@
             @else
                 <div class="grid gap-6 grid-cols-1 sm:grid-cols-2">
                     @foreach($tools as $tool)
-                    <div class="mt-4 p-6 border-gray-300 dark:border-gray-700 dark:bg-gray-800 dark:text-gray-300 rounded-2xl shadow-sm">
+                    <div class="mt-4 p-6 border border-gray-300 dark:border-gray-700 bg-gray-50  dark:bg-gray-800 dark:text-gray-300 rounded-2xl shadow-sm">
 
                         {{-- 正式名称 --}}
                         <h1 class="p-4 text-xl font-semibold">
