@@ -67,7 +67,7 @@
 
                         {{-- 削除ボタン --}}
                         <x-danger-button class="remove-tool-name">
-                            <x-icon name="cancel-circle" class="pointer-events-none" />
+                            <x-icon name="cancel-circle" />
                         </x-danger-button>
 
                     </div>
@@ -100,7 +100,7 @@
 
                             {{-- 削除ボタン --}}
                             <x-danger-button class="remove-tool-name">
-                                <x-icon name="cancel-circle" class="pointer-events-none" />
+                                <x-icon name="cancel-circle" />
                             </x-danger-button>
 
                         </div>

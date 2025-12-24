@@ -1,7 +1,7 @@
 {{-- コンポーネントが受け取る 引数 --}}
 @props([
     'name',
-    'class' => 'w-5 h-5',
+    'class' => 'w-5 h-5 pointer-events-none',
 ])
 
 {{-- SVGファイルのパス --}}
