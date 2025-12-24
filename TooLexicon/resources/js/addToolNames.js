@@ -29,7 +29,7 @@ function addToolName() {
     const tempDiv = document.createElement('div');
     tempDiv.innerHTML = html;
     const newElement = tempDiv.firstElementChild;
-    
+
     // DOMに作成した新しい要素を追加
     document.getElementById('tool-names-container').appendChild(newElement);
 };

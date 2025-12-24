@@ -69,7 +69,7 @@
 
                         {{-- 削除ボタン --}}
                         <x-danger-button class="remove-tool-name">
-                            <x-icon name="cancel-circle" />
+                            <x-icon name="cancel-circle" class="pointer-events-none" />
                         </x-danger-button>
 
                     </div>
@@ -95,7 +95,7 @@
                             <span>代表</span>
                         </label>
                         <x-danger-button class="remove-tool-name">
-                            削除
+                            <x-icon name="cancel-circle" class="pointer-events-none" />
                         </x-danger-button>
                     </div>
                     @endforelse
@@ -128,7 +128,7 @@
 
                             {{-- 削除ボタン --}}
                             <x-danger-button class="remove-tool-name">
-                                削除
+                                <x-icon name="cancel-circle" class="pointer-events-none" />
                             </x-danger-button>
 
                         </div>
