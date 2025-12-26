@@ -40,7 +40,11 @@ class Tool extends Model
         return $query;
     }
     // 名前で部分一致検索
-    return $query->where('official_name', 'like', "%{$keyword}%");
+    return $query->where('official_name', 'like', "%{$keyword}%")
+            ->orWhereHas('toolNames', function ($q) use ($keyword) {
+                $q->where('name', 'like', "%{$keyword}%");
+            })
+            ->get();
     }
 
     // tool : tool_name
