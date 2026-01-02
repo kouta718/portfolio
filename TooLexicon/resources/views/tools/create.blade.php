@@ -11,7 +11,7 @@
                 {{ session('success') }}
             </div>
         @endif
-        <form method="POST" action="{{ route('tools.store')}}">@csrf
+        <form method="POST" action="{{ route('tools.store')}}" enctype="multipart/form-data">@csrf
 
             {{-- 正式名称 --}}
             <div class="w-full flex flex-col">
@@ -31,6 +31,33 @@
                     class="w-auto py-2 border border-gray-300 rounded-md"
                     value="{{ old('category') }}">
                 </x-text-input>
+            </div>
+
+            {{-- 画像 --}}
+            <div class="w-full flex flex-col">
+                <x-input-label for="image_path" class="font-semibold mt-4 ml-2">画像</x-input-label>
+                <x-input-error :messages="$errors->get('image_path')" class="mt-2" />
+                <input type="file" 
+                    name="image_path" 
+                    id="image_path"
+                    accept="image/jpeg,image/png,image/jpg,image/gif"
+                    class="w-auto py-2 border border-gray-300"
+                >
+
+                <!-- UI本体 -->
+                <label for="image_path">
+
+                    <!-- 中央テキスト -->
+                    <div>
+                        Media
+                    </div>
+
+                    <!-- 右下カメラアイコン -->
+                    <div>
+                        <!-- SVGでもOK -->
+                        <x-icon name="camera" class="w-4 h-4"/>
+                    </div>
+                </label>
             </div>
 
             {{-- 別名（呼び名） --}}

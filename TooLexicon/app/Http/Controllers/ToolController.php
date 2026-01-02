@@ -43,14 +43,18 @@ class ToolController extends Controller
     {
         $validated = $request->validated();
 
+        $imagePath = isset($validated['image_path'])
+            ? $validated['image_path']->store('tools', 'public')
+            : null;
+
         // トランザクション内でToolとToolNameを同時保存
-        DB::transaction(function () use ($validated) {
+        DB::transaction(function () use ($validated, $imagePath) {
             // Toolテーブルのデータを抽出
             $toolData = [
                 'user_id'       => Auth::id(),
                 'official_name' => $validated['official_name'],
                 'category' => $validated['category'] ?? null,
-                'image_url' => $validated['image_url'] ?? null,
+                'image_path' => $imagePath,
                 'amazon_url' => $validated['amazon_url'] ?? null,
                 'monotaro_url' => $validated['monotaro_url'] ?? null,
                 'usage' => $validated['usage'] ?? null,
@@ -104,14 +108,18 @@ class ToolController extends Controller
     {
         $validated = $request->validated();
 
+        $imagePath = isset($validated['image_path'])
+            ? $validated['image_path']->store('tools', 'public')
+            : $tool->image_path; //nullのデータならそのままnullで保存される
+
         // トランザクション内でToolとToolNameを同時更新
-        DB::transaction(function () use ($validated, $tool) {
+        DB::transaction(function () use ($validated, $imagePath, $tool) {
             // Toolテーブルのデータを更新
             $toolData = [
                 'user_id'       => Auth::id(),
                 'official_name' => $validated['official_name'],
                 'category' => $validated['category'] ?? null,
-                'image_url' => $validated['image_url'] ?? null,
+                'image_path' => $imagePath,
                 'amazon_url' => $validated['amazon_url'] ?? null,
                 'monotaro_url' => $validated['monotaro_url'] ?? null,
                 'usage' => $validated['usage'] ?? null,

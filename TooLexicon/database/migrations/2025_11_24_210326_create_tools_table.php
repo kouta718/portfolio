@@ -16,7 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained('users')->onDelete('set null'); // ユーザーが削除されてもデータは残す
             $table->string('official_name', 255);
             $table->string('category')->nullable();
-            $table->string('image_url')->nullable();
+            $table->string('image_path')->nullable();
             $table->string('amazon_url')->nullable();
             $table->string('monotaro_url')->nullable();
             $table->text('usage')->nullable();

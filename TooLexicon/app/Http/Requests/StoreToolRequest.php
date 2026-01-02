@@ -25,7 +25,7 @@ class StoreToolRequest extends FormRequest
             // toolテーブル
             'official_name' => ['required', 'string', 'max:255'],
             'category'      => ['nullable', 'string'],
-            'image_url'     => ['nullable', 'url'],
+            'image_path'    => ['nullable','image','mimes:jpeg,png,jpg,gif','max:2048'],
             'amazon_url'    => ['nullable', 'url'],
             'monotaro_url'  => ['nullable', 'url'],
             'usage'         => ['nullable', 'string'],
