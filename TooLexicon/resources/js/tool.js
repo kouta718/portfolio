@@ -1,3 +1,6 @@
+// ====================
+// 別名フォーム操作
+// ====================
 // 既存の別名の数を取得し、
 // 新規追加時に index が連番になるよう初期値を調整
 let toolNameIndex = Number(
@@ -41,3 +44,34 @@ document.addEventListener('click', (e) => {
         e.target.closest('.tool-name-item').remove();
     }
 });
+
+// ====================
+// 画像プレビュー操作
+// ====================
+const imageInput = document.getElementById('image_path');
+const preview = document.getElementById('imagePreview');
+const placeholder = document.getElementById('placeholder');
+
+// 既存画像がある場合は初期表示
+if (preview && preview.src && preview.src !== window.location.href) {
+    preview.classList.remove('hidden');
+    //存在チェック
+    if (placeholder) {
+        placeholder.classList.add('hidden');
+    }
+}
+
+// 新しい画像が選択された時の処理
+if (imageInput) {
+    imageInput.addEventListener('change', function (e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        preview.src = URL.createObjectURL(file);
+        preview.classList.remove('hidden');
+        //存在チェック
+        if (placeholder) {
+            placeholder.classList.add('hidden');
+        }
+    });
+}

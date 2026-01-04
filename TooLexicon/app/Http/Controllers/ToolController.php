@@ -8,6 +8,7 @@ use App\Models\Tool;
 use App\Models\ToolName;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 
 class ToolController extends Controller
 {
@@ -43,39 +44,57 @@ class ToolController extends Controller
     {
         $validated = $request->validated();
 
-        $imagePath = isset($validated['image_path'])
-            ? $validated['image_path']->store('tools', 'public')
-            : null;
+        $imagePath = null;
+        if (isset($validated['image_path'])) {
+            try {
+                $imagePath = $validated['image_path']->store('tools', 'public');
+            } catch (\Exception $e) {
+                return redirect()->back()
+                    ->withErrors(['image_path' => '画像のアップロードに失敗しました。'])
+                    ->withInput();
+            }
+        }
 
         // トランザクション内でToolとToolNameを同時保存
-        DB::transaction(function () use ($validated, $imagePath) {
-            // Toolテーブルのデータを抽出
-            $toolData = [
-                'user_id'       => Auth::id(),
-                'official_name' => $validated['official_name'],
-                'category' => $validated['category'] ?? null,
-                'image_path' => $imagePath,
-                'amazon_url' => $validated['amazon_url'] ?? null,
-                'monotaro_url' => $validated['monotaro_url'] ?? null,
-                'usage' => $validated['usage'] ?? null,
-                'safety_notes' => $validated['safety_notes'] ?? null,
-            ];
+        try {
+            DB::transaction(function () use ($validated, $imagePath) {
+                // Toolテーブルのデータを抽出
+                $toolData = [
+                    'user_id'       => Auth::id(),
+                    'official_name' => $validated['official_name'],
+                    'category' => $validated['category'] ?? null,
+                    'image_path' => $imagePath,
+                    'amazon_url' => $validated['amazon_url'] ?? null,
+                    'monotaro_url' => $validated['monotaro_url'] ?? null,
+                    'usage' => $validated['usage'] ?? null,
+                    'safety_notes' => $validated['safety_notes'] ?? null,
+                ];
 
-            // Toolを作成
-            $tool = Tool::create($toolData);
+                // Toolを作成
+                $tool = Tool::create($toolData);
 
-            // ToolNameを複数保存
-            if (isset($validated['tool_names']) && is_array($validated['tool_names'])) {
-                foreach ($validated['tool_names'] as $toolNameData) {
-                    ToolName::create([
-                        'user_id' => Auth::id(),
-                        'tool_id' => $tool->id,
-                        'name' => $toolNameData['name'],
-                        'is_primary' => $toolNameData['is_primary'] ?? false,
-                    ]);
+                // ToolNameを複数保存
+                if (isset($validated['tool_names']) && is_array($validated['tool_names'])) {
+                    foreach ($validated['tool_names'] as $toolNameData) {
+                        ToolName::create([
+                            'user_id' => Auth::id(),
+                            'tool_id' => $tool->id,
+                            'name' => $toolNameData['name'],
+                            'is_primary' => $toolNameData['is_primary'] ?? false,
+                        ]);
+                    }
                 }
+            });
+        } catch (\Exception $e) {
+            // トランザクション失敗時、アップロードした画像があれば削除
+            if ($imagePath) {
+                Storage::disk('public')->delete($imagePath);
             }
-        });
+
+            return redirect()->back()
+                ->withErrors(['error' => '登録に失敗しました。もう一度お試しください。'])
+                ->withInput();
+        }
 
         return redirect()->route('tools.index')
             ->with('success', '工具を登録しました');
@@ -108,41 +127,68 @@ class ToolController extends Controller
     {
         $validated = $request->validated();
 
-        $imagePath = isset($validated['image_path'])
-            ? $validated['image_path']->store('tools', 'public')
-            : $tool->image_path; //nullのデータならそのままnullで保存される
+        // 古い画像パスを保存
+        $oldImagePath = $tool->image_path;
+        $newImagePath = $oldImagePath; // デフォルトは既存のパス
+
+        // 新しい画像がアップロードされた場合のみ処理
+        if (isset($validated['image_path'])) {
+            try {
+                $newImagePath = $validated['image_path']->store('tools', 'public');
+            } catch (\Exception $e) {
+                return redirect()->back()
+                    ->withErrors(['image_path' => '画像のアップロードに失敗しました。'])
+                    ->withInput();
+            }
+        }
 
         // トランザクション内でToolとToolNameを同時更新
-        DB::transaction(function () use ($validated, $imagePath, $tool) {
-            // Toolテーブルのデータを更新
-            $toolData = [
-                'user_id'       => Auth::id(),
-                'official_name' => $validated['official_name'],
-                'category' => $validated['category'] ?? null,
-                'image_path' => $imagePath,
-                'amazon_url' => $validated['amazon_url'] ?? null,
-                'monotaro_url' => $validated['monotaro_url'] ?? null,
-                'usage' => $validated['usage'] ?? null,
-                'safety_notes' => $validated['safety_notes'] ?? null,
-            ];
+        try{
+            DB::transaction(function () use ($validated, $newImagePath, $tool) {
+                // Toolテーブルのデータを更新
+                $toolData = [
+                    'user_id'       => Auth::id(),
+                    'official_name' => $validated['official_name'],
+                    'category' => $validated['category'] ?? null,
+                    'image_path' => $newImagePath,
+                    'amazon_url' => $validated['amazon_url'] ?? null,
+                    'monotaro_url' => $validated['monotaro_url'] ?? null,
+                    'usage' => $validated['usage'] ?? null,
+                    'safety_notes' => $validated['safety_notes'] ?? null,
+                ];
 
-            $tool->update($toolData);
+                $tool->update($toolData);
 
-            // 既存のToolNameを削除
-            $tool->toolNames()->delete();
+                // 既存のToolNameを削除
+                $tool->toolNames()->delete();
 
-            // ToolNameを複数保存
-            if (isset($validated['tool_names']) && is_array($validated['tool_names'])) {
-                foreach ($validated['tool_names'] as $toolNameData) {
-                    ToolName::create([
-                        'user_id' => Auth::id(),
-                        'tool_id' => $tool->id,
-                        'name' => $toolNameData['name'],
-                        'is_primary' => $toolNameData['is_primary'] ?? false,
-                    ]);
+                // ToolNameを複数保存
+                if (isset($validated['tool_names']) && is_array($validated['tool_names'])) {
+                    foreach ($validated['tool_names'] as $toolNameData) {
+                        ToolName::create([
+                            'user_id' => Auth::id(),
+                            'tool_id' => $tool->id,
+                            'name' => $toolNameData['name'],
+                            'is_primary' => $toolNameData['is_primary'] ?? false,
+                        ]);
+                    }
                 }
+            });
+
+            // 新しい画像がアップロードされた場合のみ、古い画像を削除
+            if (isset($validated['image_path']) && $oldImagePath && $oldImagePath !== $newImagePath) {
+                Storage::disk('public')->delete($oldImagePath);
             }
-        });
+        } catch (\Exception $e) {
+            // トランザクション失敗時、新しくアップロードした画像があれば削除
+            if (isset($validated['image_path']) && $newImagePath !== $oldImagePath && $newImagePath) {
+                Storage::disk('public')->delete($newImagePath);
+            }
+
+            return redirect()->back()
+                ->withErrors(['error' => '更新に失敗しました。もう一度お試しください。'])
+                ->withInput();
+        }
 
         return redirect()->route('tools.show', $tool)
             ->with('success', '工具のデータを更新しました');
@@ -153,7 +199,16 @@ class ToolController extends Controller
      */
     public function destroy(Tool $tool)
     {
+        // 削除前に画像パスを保存
+        $imagePath = $tool->image_path;
+
+        // ツールを削除
         $tool->delete();
+
+        // 画像ファイルを削除（nullチェックとパス重複を回避）
+        if ($imagePath) {
+            Storage::disk('public')->delete($imagePath);
+        }
 
         return redirect()->route('tools.index')
             ->with('success', '削除しました');

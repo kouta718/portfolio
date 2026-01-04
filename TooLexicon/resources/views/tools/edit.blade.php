@@ -1,154 +1,198 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-700 dark:text-gray-300 leading-tight flex items-center gap-2">
+        <h2 class="flex items-center gap-2 text-xl font-semibold leading-tight text-gray-700 dark:text-gray-300">
             <x-icon name="pencil" class="w-6 h-6"/>
             編集
         </h2>
     </x-slot>
-    <div class="max-w-7xl mx-auto m-4 p-6 w-full border border-gray-300 dark:border-gray-500 bg-gray-50 dark:bg-gray-800 rounded-md">
+    <div class="mx-auto m-4 w-full max-w-7xl rounded-md border border-gray-300 bg-gray-50 p-6 dark:border-gray-500 dark:bg-gray-800">
         @if(session('success'))
-            <div class="mb-4 p-4 bg-green-100 dark:bg-green-800 text-green-700 dark:text-green-300 rounded-lg font-semibold">
+            <div class="mb-4 rounded-lg bg-green-100 p-4 font-semibold text-green-700 dark:bg-green-800 dark:text-green-300">
                 {{ session('success') }}
             </div>
         @endif
-        <form method="POST" action="{{ route('tools.update', $tool)}}">@csrf
+        <form method="POST" action="{{ route('tools.update', $tool)}}" enctype="multipart/form-data">@csrf
             @method('patch')
 
-            {{-- 正式名称 --}}
-            <div class="w-full flex flex-col">
-                <x-input-label for="official_name" class="font-semibold mt-4 ml-2">正式名称</x-input-label>
-                <x-input-error :messages="$errors->get('official_name')" class="mt-2" />
-                <x-text-input type="text" name="official_name" id="official_name"
-                    class="w-auto py-2 border border-gray-300 rounded-md"
-                    value="{{ old('official_name', $tool->official_name) }}">
-                </x-text-input>
-            </div>
-
-            {{-- カテゴリ --}}
-            <div class="w-full flex flex-col">
-                <x-input-label for="category" class="font-semibold mt-4 ml-2">カテゴリ</x-input-label>
-                <x-input-error :messages="$errors->get('category')" class="mt-2" />
-                <x-text-input type="text" name="category" id="category"
-                    class="w-auto py-2 border border-gray-300 rounded-md"
-                    value="{{ old('category', $tool->category) }}">
-                </x-text-input>
-            </div>
-
-            {{-- 別名（呼び名） --}}
-            <div class="mt-6">
-                <x-input-label for="name" class="font-semibold ml-2">別名（呼び名）</x-input-label>
-
-                {{-- 全体コンテナ 最低1件のフォームを表示する --}}
-                <div id="tool-names-container" class="space-y-4" data-count="{{ max(count($tool->toolNames), 1) }}"> 
-
-                    {{-- 既存のtoolNamesを表示 --}}
-                    @forelse($tool->toolNames as $i => $name)
-                    <div class="tool-name-item flex items-start gap-4 p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-
-                        {{-- テキスト入力 --}}
-                        <div class="flex-1">
-                            <x-text-input
-                                type="text"
-                                name="tool_names[{{ $i }}][name]"
-                                class="w-full"
-                                value="{{ old('tool_names.'.$i.'.name', $name->name) }}"
-                                placeholder="別名を入力"
-                            />
-                            <x-input-error :messages="$errors->get('tool_names.'.$i.'.name')" class="mt-2" />
-                        </div>
-
-                        {{-- 代表チェック --}}
-                        <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                            <input type="checkbox"
-                                name="tool_names[{{ $i }}][is_primary]"
-                                value="1"
-                                class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600"
-                                {{ old('tool_names.'.$i.'.is_primary', $name->is_primary) ? 'checked' : '' }}>
-                            <span>代表</span>
-                        </label>
-
-                        {{-- 削除ボタン --}}
-                        <x-danger-button class="remove-tool-name">
-                            <x-icon name="cancel-circle" />
-                        </x-danger-button>
-
+            <div class="grid gap-6 grid-cols-1 sm:grid-cols-2">
+                <div> {{-- グループ化 --}}
+                    {{-- 正式名称 --}}
+                    <div class="w-full flex flex-col">
+                        <x-input-label for="official_name" class="font-semibold mt-4 ml-2">正式名称</x-input-label>
+                        <x-input-error :messages="$errors->get('official_name')" class="mt-2" />
+                        <x-text-input type="text" name="official_name" id="official_name"
+                            class="w-auto rounded-md border border-gray-300 py-2"
+                            value="{{ old('official_name', $tool->official_name) }}">
+                        </x-text-input>
                     </div>
-                    @empty
-                    {{-- toolNamesが空の場合の初期行 --}}
-                    <div class="tool-name-item flex items-start gap-4 p-4 bg-white dark:bg-gray-700 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
-                        <div class="flex-1">
-                            <x-text-input
-                                type="text"
-                                name="tool_names[0][name]"
-                                class="w-full"
-                                value="{{ old('tool_names.0.name') }}"
-                                placeholder="別名を入力"
-                            />
-                            <x-input-error :messages="$errors->get('tool_names.0.name')" class="mt-2" />
-                        </div>
-                        <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                            <input type="checkbox"
-                                name="tool_names[0][is_primary]"
-                                value="1"
-                                class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600"
-                                {{ old('tool_names.0.is_primary') ? 'checked' : '' }}>
-                            <span>代表</span>
-                        </label>
-                        <x-danger-button class="remove-tool-name">
-                            <x-icon name="cancel-circle" />
-                        </x-danger-button>
+
+                    {{-- カテゴリ --}}
+                    <div class="w-full flex flex-col">
+                        <x-input-label for="category" class="font-semibold mt-4 ml-2">カテゴリ</x-input-label>
+                        <x-input-error :messages="$errors->get('category')" class="mt-2" />
+                        <x-text-input type="text" name="category" id="category"
+                            class="w-auto rounded-md border border-gray-300 py-2"
+                            value="{{ old('category', $tool->category) }}">
+                        </x-text-input>
                     </div>
-                    @endforelse
 
-                    {{-- ２つ目以降のテンプレート --}}
-                    <template id="tool-name-template">
-                        <div class="tool-name-item flex items-start gap-4 p-4 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-200 dark:border-gray-700">
+                    {{-- 別名（呼び名） --}}
+                    <div class="mt-6">
+                        <x-input-label for="name" class="font-semibold ml-2">別名（呼び名）</x-input-label>
 
-                            {{-- テキスト入力 --}}
-                            <div class="flex-1">
-                                <x-text-input
-                                    type="text"
-                                    name="tool_names[__index__][name]"
-                                    class="w-full"
-                                    value="{{ old('tool_names.__index__.name') }}"
-                                    placeholder="別名を入力"
-                                />
-                                <x-input-error :messages="$errors->get('tool_names.__index__.name')" class="mt-2" />
+                        {{-- 全体コンテナ 最低1件のフォームを表示する --}}
+                        <div id="tool-names-container" class="space-y-4" data-count="{{ max(count($tool->toolNames), 1) }}"> 
+
+                            {{-- 既存のtoolNamesを表示 --}}
+                            @forelse($tool->toolNames as $i => $name)
+                            <div class="tool-name-item flex items-start gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-700">
+
+                                {{-- テキスト入力 --}}
+                                <div class="flex-1">
+                                    <x-text-input
+                                        type="text"
+                                        name="tool_names[{{ $i }}][name]"
+                                        class="w-full"
+                                        value="{{ old('tool_names.'.$i.'.name', $name->name) }}"
+                                        placeholder="別名を入力"
+                                    />
+                                    <x-input-error :messages="$errors->get('tool_names.'.$i.'.name')" class="mt-2" />
+                                </div>
+
+                                {{-- 代表チェック --}}
+                                <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                                    <input type="checkbox"
+                                        name="tool_names[{{ $i }}][is_primary]"
+                                        value="1"
+                                        class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:border-gray-600 dark:focus:ring-indigo-600"
+                                        {{ old('tool_names.'.$i.'.is_primary', $name->is_primary) ? 'checked' : '' }}>
+                                    <span>代表</span>
+                                </label>
+
+                                {{-- 削除ボタン --}}
+                                <x-danger-button class="remove-tool-name">
+                                    <x-icon name="cancel-circle" />
+                                </x-danger-button>
+
                             </div>
+                            @empty
+                            {{-- toolNamesが空の場合の初期行 --}}
+                            <div class="tool-name-item flex items-start gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-700">
+                                <div class="flex-1">
+                                    <x-text-input
+                                        type="text"
+                                        name="tool_names[0][name]"
+                                        class="w-full"
+                                        value="{{ old('tool_names.0.name') }}"
+                                        placeholder="別名を入力"
+                                    />
+                                    <x-input-error :messages="$errors->get('tool_names.0.name')" class="mt-2" />
+                                </div>
+                                <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                                    <input type="checkbox"
+                                        name="tool_names[0][is_primary]"
+                                        value="1"
+                                        class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:border-gray-600 dark:focus:ring-indigo-600"
+                                        {{ old('tool_names.0.is_primary') ? 'checked' : '' }}>
+                                    <span>代表</span>
+                                </label>
+                                <x-danger-button class="remove-tool-name">
+                                    <x-icon name="cancel-circle" />
+                                </x-danger-button>
+                            </div>
+                            @endforelse
 
-                            {{-- 代表チェック --}}
-                            <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
-                                <input type="checkbox"
-                                    name="tool_names[__index__][is_primary]"
-                                    value="1"
-                                    class="rounded border-gray-300 dark:border-gray-600 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:focus:ring-indigo-600"
-                                    {{ old('tool_names.__index__.is_primary') ? 'checked' : '' }}>
-                                <span>代表</span>
-                            </label>
+                            {{-- ２つ目以降のテンプレート --}}
+                            <template id="tool-name-template">
+                                <div class="tool-name-item flex items-start gap-4 rounded-xl border border-gray-200 bg-white p-4 shadow-sm dark:border-gray-700 dark:bg-gray-700">
 
-                            {{-- 削除ボタン --}}
-                            <x-danger-button class="remove-tool-name">
-                                <x-icon name="cancel-circle" />
-                            </x-danger-button>
+                                    {{-- テキスト入力 --}}
+                                    <div class="flex-1">
+                                        <x-text-input
+                                            type="text"
+                                            name="tool_names[__index__][name]"
+                                            class="w-full"
+                                            value="{{ old('tool_names.__index__.name') }}"
+                                            placeholder="別名を入力"
+                                        />
+                                        <x-input-error :messages="$errors->get('tool_names.__index__.name')" class="mt-2" />
+                                    </div>
 
+                                    {{-- 代表チェック --}}
+                                    <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                                        <input type="checkbox"
+                                            name="tool_names[__index__][is_primary]"
+                                            value="1"
+                                            class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:border-gray-600 dark:focus:ring-indigo-600"
+                                            {{ old('tool_names.__index__.is_primary') ? 'checked' : '' }}>
+                                        <span>代表</span>
+                                    </label>
+
+                                    {{-- 削除ボタン --}}
+                                    <x-danger-button class="remove-tool-name">
+                                        <x-icon name="cancel-circle" />
+                                    </x-danger-button>
+
+                                </div>
+                            </template>
                         </div>
-                    </template>
-                </div>
-                {{-- 追加ボタン --}}
-                <button type="button" class="mt-2 ml-2 text-blue-600 hover:text-blue-700 inline-flex items-center px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-500 rounded-md font-semibold text-xs text-gray-700 dark:text-gray-300 uppercase tracking-widest hover:bg-gray-50 dark:hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:focus:ring-offset-gray-800 transition ease-in-out duration-150 add-tool-name gap-1" id="add-tool-name-button">
-                    <x-icon name="plus" class="w-2 h-2"/>
-                    別名を追加
-                </button>
+                        {{-- 追加ボタン --}}
+                        <button type="button" class="add-tool-name mt-2 ml-2 inline-flex items-center gap-1 rounded-md border border-gray-300 bg-white px-4 py-2 text-xs font-semibold uppercase tracking-widest text-blue-600 transition duration-150 ease-in-out hover:bg-gray-50 hover:text-blue-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 dark:border-gray-500 dark:bg-gray-800 dark:text-gray-300 dark:hover:bg-gray-700 dark:focus:ring-offset-gray-800" id="add-tool-name-button">
+                            <x-icon name="plus" class="w-2 h-2"/>
+                            別名を追加
+                        </button>
 
-                <x-input-error :messages="$errors->get('tool_names')" class="mt-2" />
+                        <x-input-error :messages="$errors->get('tool_names')" class="mt-2" />
+                    </div>
+
+                </div>
+
+                {{-- 画像 --}}
+                <div class="w-full flex flex-col">
+                    <x-input-label for="image_path" class="font-semibold mt-4 ml-2">画像</x-input-label>
+                    <x-input-error :messages="$errors->get('image_path')" class="mt-2" />
+
+                    <!-- inputは隠す -->
+                    <input
+                        type="file"
+                        id="image_path"
+                        name="image_path"
+                        accept="image/*"
+                        class="hidden"
+                    >
+
+                    <!-- UI本体 -->
+                    <label for="image_path"
+                        class="relative block aspect-video cursor-pointer border-2 border-dashed border-gray-300 bg-white transition hover:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-500 dark:bg-gray-400">
+
+                        <!-- プレビュー画像 -->
+                        <img id="imagePreview"
+                            class="absolute inset-0 h-full w-full object-cover {{ $tool->image_path ? '' : 'hidden' }}"
+                            src="{{ $tool->image_path ? asset('storage/'.$tool->image_path) : '' }}"
+                            alt="画像プレビュー"
+                        >
+                        <!-- 中央テキスト -->
+                        <div id="placeholder"
+                            class="absolute inset-0 flex items-center justify-center text-xl font-medium text-gray-400 {{ $tool->image_path ? 'hidden' : '' }} dark:text-gray-800">
+                            <x-icon name="image" class="w-16 h-16" />
+                        </div>
+
+                        <!-- 右下カメラアイコン -->
+                        <div class="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-white shadow">
+                            <!-- SVG -->
+                            <x-icon name="camera" />
+                        </div>
+                    </label>
+                </div>
             </div>
+
 
             {{-- 使用用途 --}}
             <div class="w-full flex flex-col">
                 <x-input-label for="usage" class="font-semibold mt-4 ml-2">使用用途</x-input-label>
                 <x-input-error :messages="$errors->get('usage')" class="mt-2" />
                 <x-textarea name="usage" id="usage"
-                    class="w-auto py-2 border border-gray-300 rounded-md"
+                    class="w-auto rounded-md border border-gray-300 py-2"
                     rows="3">{{ old('usage', $tool->usage) }}</x-textarea>
             </div>
 
@@ -157,7 +201,7 @@
                 <x-input-label for="safety_notes" class="font-semibold mt-4 ml-2">安全上の注意</x-input-label>
                 <x-input-error :messages="$errors->get('safety_notes')" class="mt-2" />
                 <x-textarea name="safety_notes" id="safety_notes"
-                    class="w-auto py-2 border border-gray-300 rounded-md"
+                    class="w-auto rounded-md border border-gray-300 py-2"
                     rows="3">{{ old('safety_notes', $tool->safety_notes) }}</x-textarea>
             </div>
 
@@ -166,5 +210,5 @@
             </x-primary-button>
         </form>
     </div>
-    @vite('resources/js/addToolNames.js')
+    @vite('resources/js/tool.js')
 </x-app-layout>
