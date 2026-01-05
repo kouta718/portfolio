@@ -11,9 +11,9 @@
             {{ session('success') }}
         </div>
         @endif
-        <div class="mt-4 flex p-4">
+        <div class="mt-4 flex flex-col p-4 md:flex-row">
             {{-- 画像 --}}
-            <div class="mx-4 aspect-video w-1/3 overflow-hidden">
+            <div class="mb-4 aspect-video w-full overflow-hidden md:mx-4 md:mb-0 md:w-1/3">
                 @if($tool->image_path)
                     <img src="{{ asset('storage/'.$tool->image_path) }}" class="block h-full max-h-[480px] w-full object-cover" alt="{{ $tool->official_name }}"/>
                 @else
@@ -22,23 +22,23 @@
                     </div>
                 @endif
             </div>
-            <div class="w-2/3">
+            <div class="w-full md:w-2/3">
                 <x-input-label class="block p-1 font-semibold">正式名称</x-input-label>
-                <div class="flex rounded-md p-1">
-                    <h1 class="ml-4 flex-1 text-3xl font-semibold text-gray-700 dark:text-gray-300">
+                <div class="flex flex-col gap-2 rounded-md p-1 md:flex-row md:items-center">
+                    <h1 class="ml-4 flex-1 text-2xl font-semibold text-gray-700 dark:text-gray-300 md:text-3xl">
                         {{$tool->official_name}}
                     </h1>
-                    <div class="flex flex-2 text-right">
-                        <a href="{{route('tools.edit', $tool)}}" class="flex-1">
-                            <x-primary-button class="items-center gap-1">
+                    <div class="flex gap-2 md:ml-auto">
+                        <a href="{{route('tools.edit', $tool)}}" class="flex-1 md:flex-none">
+                            <x-primary-button class="w-full items-center gap-1 md:w-auto">
                                 <x-icon name="pencil" class="w-4 h-4" />
                                 編集
                             </x-primary-button>
                         </a>
-                        <form method="POST" action="{{route('tools.destroy', $tool)}}" class="flex-2">
+                        <form method="POST" action="{{route('tools.destroy', $tool)}}">
                             @csrf
                             @method('delete')
-                            <x-danger-button class="ml-4 flex items-center gap-1">
+                            <x-danger-button class="w-full flex items-center gap-1 md:w-auto md:ml-4">
                                 <x-icon name="bin2" class="w-4 h-4" />
                                 削除
                             </x-danger-button>

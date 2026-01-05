@@ -17,21 +17,21 @@
             <div class="grid gap-6 grid-cols-1 sm:grid-cols-2">
                 <div> {{-- グループ化 --}}
                     {{-- 正式名称 --}}
-                    <div class="w-full flex flex-col">
+                    <div class="flex flex-col">
                         <x-input-label for="official_name" class="font-semibold mt-4 ml-2">正式名称</x-input-label>
                         <x-input-error :messages="$errors->get('official_name')" class="mt-2" />
                         <x-text-input type="text" name="official_name" id="official_name"
-                            class="w-auto rounded-md border border-gray-300 py-2"
+                            class="w-full rounded-md border border-gray-300 py-2"
                             value="{{ old('official_name', $tool->official_name) }}">
                         </x-text-input>
                     </div>
 
                     {{-- カテゴリ --}}
-                    <div class="w-full flex flex-col">
+                    <div class="flex flex-col">
                         <x-input-label for="category" class="font-semibold mt-4 ml-2">カテゴリ</x-input-label>
                         <x-input-error :messages="$errors->get('category')" class="mt-2" />
                         <x-text-input type="text" name="category" id="category"
-                            class="w-auto rounded-md border border-gray-300 py-2"
+                            class="w-full rounded-md border border-gray-300 py-2"
                             value="{{ old('category', $tool->category) }}">
                         </x-text-input>
                     </div>
@@ -148,7 +148,7 @@
                 </div>
 
                 {{-- 画像 --}}
-                <div class="w-full flex flex-col">
+                <div class="flex flex-col">
                     <x-input-label for="image_path" class="font-semibold mt-4 ml-2">画像</x-input-label>
                     <x-input-error :messages="$errors->get('image_path')" class="mt-2" />
 
@@ -188,38 +188,38 @@
 
 
             {{-- 使用用途 --}}
-            <div class="w-full flex flex-col">
+            <div class="flex flex-col">
                 <x-input-label for="usage" class="font-semibold mt-4 ml-2">使用用途</x-input-label>
                 <x-input-error :messages="$errors->get('usage')" class="mt-2" />
                 <x-textarea name="usage" id="usage"
-                    class="w-auto rounded-md border border-gray-300 py-2"
+                    class="w-full rounded-md border border-gray-300 py-2"
                     rows="3">{{ old('usage', $tool->usage) }}</x-textarea>
             </div>
 
             {{-- 安全上の注意 --}}
-            <div class="w-full flex flex-col">
+            <div class="flex flex-col">
                 <x-input-label for="safety_notes" class="font-semibold mt-4 ml-2">安全上の注意</x-input-label>
                 <x-input-error :messages="$errors->get('safety_notes')" class="mt-2" />
                 <x-textarea name="safety_notes" id="safety_notes"
-                    class="w-auto rounded-md border border-gray-300 py-2"
+                    class="w-full rounded-md border border-gray-300 py-2"
                     rows="3">{{ old('safety_notes', $tool->safety_notes) }}</x-textarea>
             </div>
 
-            <div class="w-full flex flex-col">
+            <div class="flex flex-col">
                 <x-input-label for="amazon_url" class="font-semibold mt-4 ml-2">Amazon URL</x-input-label>
                 <x-input-error :messages="$errors->get('amazon_url')" class="mt-2" />
                 <x-text-input type="text" name="amazon_url" id="amazon_url"
-                    class="w-auto rounded-md border border-gray-300 py-2"
+                    class="w-full rounded-md border border-gray-300 py-2"
                     value="{{ old('amazon_url', $tool->amazon_url) }}"
                     placeholder="https://www.amazon.co.jp/...">
                 </x-text-input>
             </div>
 
-            <div class="w-full flex flex-col">
+            <div class="flex flex-col">
                 <x-input-label for="monotaro_url" class="font-semibold mt-4 ml-2">モノタロウ URL</x-input-label>
                 <x-input-error :messages="$errors->get('monotaro_url')" class="mt-2" />
                 <x-text-input type="text" name="monotaro_url" id="monotaro_url"
-                    class="w-auto rounded-md border border-gray-300 py-2"
+                    class="w-full rounded-md border border-gray-300 py-2"
                     value="{{ old('monotaro_url', $tool->monotaro_url) }}"
                     placeholder="https://www.monotaro.com/...">
                 </x-text-input>
