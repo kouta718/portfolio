@@ -26,8 +26,8 @@ class StoreToolRequest extends FormRequest
             'official_name' => ['required', 'string', 'max:255'],
             'category'      => ['nullable', 'string'],
             'image_path'    => ['nullable','image','mimes:jpeg,png,jpg,gif','max:2048'],
-            'amazon_url'    => ['nullable', 'url'],
-            'monotaro_url'  => ['nullable', 'url'],
+            'amazon_url'    => ['nullable', 'url', 'starts_with:https://www.amazon.'],
+            'monotaro_url'  => ['nullable', 'url', 'starts_with:https://www.monotaro.com'],
             'usage'         => ['nullable', 'string'],
             'safety_notes'  => ['nullable', 'string'],
 

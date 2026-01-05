@@ -177,6 +177,26 @@
                     rows="3">{{ old('safety_notes') }}</x-textarea>
             </div>
 
+            <div class="w-full flex flex-col">
+                <x-input-label for="amazon_url" class="font-semibold mt-4 ml-2">Amazon URL</x-input-label>
+                <x-input-error :messages="$errors->get('amazon_url')" class="mt-2" />
+                <x-text-input type="text" name="amazon_url" id="amazon_url"
+                    class="w-auto rounded-md border border-gray-300 py-2"
+                    value="{{ old('amazon_url') }}"
+                    placeholder="https://www.amazon.co.jp/...">
+                </x-text-input>
+            </div>
+
+            <div class="w-full flex flex-col">
+                <x-input-label for="monotaro_url" class="font-semibold mt-4 ml-2">モノタロウ URL</x-input-label>
+                <x-input-error :messages="$errors->get('monotaro_url')" class="mt-2" />
+                <x-text-input type="text" name="monotaro_url" id="monotaro_url"
+                    class="w-auto rounded-md border border-gray-300 py-2"
+                    value="{{ old('monotaro_url') }}"
+                    placeholder="https://www.monotaro.com/...">
+                </x-text-input>
+            </div>
+
             <x-primary-button class="mt-4 ml-2">
                 登録する
             </x-primary-button>

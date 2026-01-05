@@ -53,7 +53,7 @@
                     <x-input-label class="block p-1 font-semibold">別名</x-input-label>
                     <div class="flex">
                         @foreach($tool->toolNames as $i => $name)
-                            <x-text-block class="mr-2 bg-gray-100 p-2 dark:bg-gray-700">
+                            <x-text-block class="mr-2">
                                 {{ $name->name }}
                             </x-text-block>
                         @endforeach
@@ -63,7 +63,7 @@
                 {{-- カテゴリ --}}
                 <div class="p-2 mt-4 rounded-md">
                     <x-input-label class="block p-1 font-semibold">カテゴリ</x-input-label>
-                    <x-text-block class="bg-gray-100 p-2 dark:bg-gray-700">
+                    <x-text-block>
                         {{ $tool->category ?? '未設定' }}
                     </x-text-block>
                 </div>
@@ -71,7 +71,7 @@
                 {{-- 使用用途 --}}
                 <div class="p-2 mt-4 rounded-md">
                     <x-input-label class="block p-1 font-semibold">使用用途</x-input-label>
-                    <x-text-block class="bg-gray-100 p-2 dark:bg-gray-700">
+                    <x-text-block>
                         {{ $tool->usage ?? '未設定' }}
                     </x-text-block>
                 </div>
@@ -79,9 +79,33 @@
                 {{-- 安全上の注意 --}}
                 <div class="p-2 mt-4 rounded-md">
                     <x-input-label class="ml-2 block font-semibold">安全上の注意</x-input-label>
-                    <x-text-block class="bg-gray-100 p-2 dark:bg-gray-700">
+                    <x-text-block>
                         {{ $tool->safety_notes ?? '未設定' }}
                     </x-text-block>
+                </div>
+
+                {{-- Amazon URL --}}
+                <div class="p-2 mt-4 rounded-md">
+                    <x-input-label class="block p-1 font-semibold">Amazon URL</x-input-label>
+                    @if ($tool->amazon_url)
+                        <x-link-text href="{{ $tool->amazon_url }}">
+                            Amazonで見る
+                        </x-link-text>
+                    @else
+                        <x-text-block>未設定</x-text-block>
+                    @endif
+                </div>
+
+                {{-- モノタロウ URL --}}
+                <div class="p-2 mt-4 rounded-md">
+                    <x-input-label class="block p-1 font-semibold">モノタロウ URL</x-input-label>
+                    @if ($tool->monotaro_url)
+                        <x-link-text href="{{ $tool->monotaro_url }}">
+                            モノタロウで見る
+                        </x-link-text>
+                    @else
+                        <x-text-block>未設定</x-text-block>
+                    @endif
                 </div>
 
                 {{-- 登録日時 --}}
