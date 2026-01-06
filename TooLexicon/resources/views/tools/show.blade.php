@@ -5,17 +5,17 @@
             詳細表示
         </h2>
     </x-slot>
-    <div class="mx-auto m-4 w-full max-w-7xl rounded-md border border-gray-300 bg-gray-50 px-6 dark:border-gray-500 dark:bg-gray-800">
+    <div class="m-auto w-full max-w-7xl rounded-md border border-gray-300 bg-gray-50 px-6 dark:border-gray-500 dark:bg-gray-800">
         @if(session('success'))
         <div class="mb-4 rounded-lg bg-green-100 p-4 font-semibold text-green-700 dark:bg-green-800 dark:text-green-300">
             {{ session('success') }}
         </div>
         @endif
-        <div class="mt-4 flex flex-col p-4 md:flex-row">
+        <div class="mt-4 flex flex-col gap-4 md:flex-row">
             {{-- 画像 --}}
-            <div class="mb-4 aspect-video w-full overflow-hidden md:mx-4 md:mb-0 md:w-1/3">
+            <div class="mb-4 aspect-video w-full overflow-hidden md:mx-2 md:m-auto md:w-1/3">
                 @if($tool->image_path)
-                    <img src="{{ asset('storage/'.$tool->image_path) }}" class="block h-full max-h-[480px] w-full object-cover" alt="{{ $tool->official_name }}"/>
+                    <img src="{{ asset('storage/'.$tool->image_path) }}" class="block h-full max-h-[480px] w-full object-contain" alt="{{ $tool->official_name }}"/>
                 @else
                     <div class="flex h-full w-full items-center justify-center bg-gray-200 dark:bg-gray-700">
                         <x-icon name="image" class="w-16 h-16 text-gray-400"/>
@@ -28,7 +28,7 @@
                     <h1 class="ml-4 flex-1 text-2xl font-semibold text-gray-700 dark:text-gray-300 md:text-3xl">
                         {{$tool->official_name}}
                     </h1>
-                    <div class="flex gap-2 md:ml-auto">
+                    <div class="flex gap-2 ml-auto">
                         <a href="{{route('tools.edit', $tool)}}" class="flex-1 md:flex-none">
                             <x-primary-button class="w-full items-center gap-1 md:w-auto">
                                 <x-icon name="pencil" class="w-4 h-4" />
@@ -51,7 +51,7 @@
                 {{-- 別名（呼び名） --}}
                 <div class="p-2 mt-4 rounded-md">
                     <x-input-label class="block p-1 font-semibold">別名</x-input-label>
-                    <div class="flex">
+                    <div class="flex flex-wrap ">
                         @foreach($tool->toolNames as $i => $name)
                             <x-text-block class="mr-2">
                                 {{ $name->name }}

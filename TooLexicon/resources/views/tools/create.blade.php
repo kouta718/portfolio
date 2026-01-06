@@ -5,7 +5,7 @@
             新規登録
         </h2>
     </x-slot>
-    <div class="mx-auto m-4 w-full max-w-7xl rounded-md border border-gray-300 bg-gray-50 p-6 dark:border-gray-500 dark:bg-gray-800">
+    <div class="m-auto w-full max-w-7xl rounded-md border border-gray-300 bg-gray-50 p-6 dark:border-gray-500 dark:bg-gray-800">
         @if(session('success'))
             <div class="mb-4 rounded-lg bg-green-100 p-4 font-semibold text-green-700 dark:bg-green-800 dark:text-green-300">
                 {{ session('success') }}
@@ -13,8 +13,47 @@
         @endif
         <form method="POST" action="{{ route('tools.store')}}" enctype="multipart/form-data">@csrf
 
-            <div class="grid gap-6 grid-cols-1 sm:grid-cols-2">
-                <div> {{-- グループ化 --}}
+            <div class="flex gap-6 flex-col sm:flex-row-reverse">
+
+                {{-- 画像 --}}
+                <div class="w-full sm:w-1/2 flex flex-col">
+                    <x-input-label for="image_path" class="font-semibold mt-4 ml-2">画像</x-input-label>
+                    <x-input-error :messages="$errors->get('image_path')" class="mt-2" />
+
+                    <!-- inputは隠す -->
+                    <input
+                        type="file"
+                        id="image_path"
+                        name="image_path"
+                        accept="image/*"
+                        class="hidden"
+                    >
+
+                    <!-- UI本体 -->
+                    <label for="image_path"
+                        class="relative block aspect-video cursor-pointer border-2 border-dashed border-gray-300 bg-white transition hover:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-500 dark:bg-gray-400">
+
+                        <!-- プレビュー画像 -->
+                        <img
+                            id="imagePreview"
+                            class="absolute inset-0 h-full w-full object-cover hidden"
+                        >
+
+                        <!-- 中央テキスト -->
+                        <div id="placeholder"
+                            class="absolute inset-0 flex items-center justify-center text-xl font-medium text-gray-400 dark:text-gray-800">
+                            <x-icon name="image" class="w-16 h-16" />
+                        </div>
+
+                        <!-- 右下カメラアイコン -->
+                        <div class="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-white shadow">
+                            <!-- SVG -->
+                            <x-icon name="camera" />
+                        </div>
+                    </label>
+                </div>
+
+                <div class="w-full sm:w-1/2"> {{-- グループ化 --}}
                     {{-- 正式名称 --}}
                     <div class="flex flex-col">
                         <x-input-label for="official_name" class="font-semibold mt-4 ml-2">正式名称</x-input-label>
@@ -58,14 +97,14 @@
                                 </div>
 
                                 {{-- 代表チェック --}}
-                                <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                                {{-- <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
                                     <input type="checkbox"
                                         name="tool_names[0][is_primary]"
                                         value="1"
                                         class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:border-gray-600 dark:focus:ring-indigo-600"
                                         {{ old('tool_names.0.is_primary') ? 'checked' : '' }}>
                                     <span>代表</span>
-                                </label>
+                                </label> --}}
 
                                 {{-- 削除ボタン --}}
                                 <x-danger-button class="remove-tool-name">
@@ -91,14 +130,14 @@
                                     </div>
 
                                     {{-- 代表チェック --}}
-                                    <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                                    {{-- <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
                                         <input type="checkbox"
                                             name="tool_names[__index__][is_primary]"
                                             value="1"
                                             class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:border-gray-600 dark:focus:ring-indigo-600"
                                             {{ old('tool_names.__index__.is_primary') ? 'checked' : '' }}>
                                         <span>代表</span>
-                                    </label>
+                                    </label> --}}
 
                                     {{-- 削除ボタン --}}
                                     <x-danger-button class="remove-tool-name">
@@ -116,45 +155,6 @@
 
                         <x-input-error :messages="$errors->get('tool_names')" class="mt-2" />
                     </div>
-
-                </div>
-
-                {{-- 画像 --}}
-                <div class="flex flex-col">
-                    <x-input-label for="image_path" class="font-semibold mt-4 ml-2">画像</x-input-label>
-                    <x-input-error :messages="$errors->get('image_path')" class="mt-2" />
-
-                    <!-- inputは隠す -->
-                    <input
-                        type="file"
-                        id="image_path"
-                        name="image_path"
-                        accept="image/*"
-                        class="hidden"
-                    >
-
-                    <!-- UI本体 -->
-                    <label for="image_path"
-                        class="relative block aspect-video cursor-pointer border-2 border-dashed border-gray-300 bg-white transition hover:border-indigo-400 focus-within:ring-2 focus-within:ring-indigo-500 dark:bg-gray-400">
-
-                        <!-- プレビュー画像 -->
-                        <img
-                            id="imagePreview"
-                            class="absolute inset-0 h-full w-full object-cover hidden"
-                        >
-
-                        <!-- 中央テキスト -->
-                        <div id="placeholder"
-                            class="absolute inset-0 flex items-center justify-center text-xl font-medium text-gray-400 dark:text-gray-800">
-                            <x-icon name="image" class="w-16 h-16" />
-                        </div>
-
-                        <!-- 右下カメラアイコン -->
-                        <div class="absolute bottom-3 right-3 flex h-10 w-10 items-center justify-center rounded-full bg-gray-800 text-white shadow">
-                            <!-- SVG -->
-                            <x-icon name="camera" />
-                        </div>
-                    </label>
                 </div>
             </div>
 
