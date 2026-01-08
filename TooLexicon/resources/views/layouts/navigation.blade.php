@@ -15,14 +15,17 @@
                     <x-nav-link :href="route('tools.index')" :active="request()->routeIs('tool.index')">
                         工具一覧
                     </x-nav-link>
+                    @auth
                     <x-nav-link :href="route('tools.create')" :active="request()->routeIs('tool.create')">
                         新規登録
                     </x-nav-link>
+                    @endauth
                 </div>
             </div>
 
             <!-- Settings Dropdown -->
             <div class="hidden sm:flex sm:items-center sm:ms-6">
+                @auth
                 <x-dropdown align="right" width="48">
                     <x-slot name="trigger">
                         <button class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-100 bg-white dark:bg-gray-600 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
@@ -53,6 +56,20 @@
                         </form>
                     </x-slot>
                 </x-dropdown>
+                @endauth
+                {{-- ログインボタン --}}
+                @guest
+                    <div class="flex gap-3 ml-auto">
+                        <a href="{{ route('login') }}"
+                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-100 bg-white dark:bg-gray-600 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                            ログイン
+                        </a>
+                        <a href="{{ route('register') }}"
+                        class="inline-flex items-center px-3 py-2 border border-transparent text-sm leading-4 font-medium rounded-md text-gray-700 dark:text-gray-100 bg-white dark:bg-gray-600 hover:text-gray-500 dark:hover:text-gray-300 focus:outline-none transition ease-in-out duration-150">
+                            新規登録
+                        </a>
+                    </div>
+                @endguest
             </div>
 
             <!-- Hamburger -->
@@ -73,12 +90,15 @@
             <x-nav-link :href="route('tools.index')" :active="request()->routeIs('tool.index')">
                 工具一覧
             </x-nav-link>
+            @auth
             <x-nav-link :href="route('tools.create')" :active="request()->routeIs('tool.create')">
                 新規登録
             </x-nav-link>
+            @endauth
         </div>
 
         <!-- Responsive Settings Options -->
+        @auth
         <div class="pt-4 pb-1 border-t border-gray-200 dark:border-gray-600">
             <div class="px-4">
                 <div class="font-medium text-base text-gray-800 dark:text-white">{{ Auth::user()->name }}</div>
@@ -102,5 +122,6 @@
                 </form>
             </div>
         </div>
+        @endauth
     </div>
 </nav>

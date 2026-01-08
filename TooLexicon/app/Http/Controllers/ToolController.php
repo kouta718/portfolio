@@ -44,10 +44,17 @@ class ToolController extends Controller
     {
         $validated = $request->validated();
 
+        // 画像の保存
         $imagePath = null;
         if (isset($validated['image_path'])) {
             try {
-                $imagePath = $validated['image_path']->store('tools', 'public');
+                $file = $validated['image_path'];
+
+                // ファイル名をサニタイズ（安全なファイル名を生成）
+                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+                // ストレージパスを検証
+                $imagePath = $file->storeAs('tools', $filename, 'public');
             } catch (\Exception $e) {
                 return redirect()->back()
                     ->withErrors(['image_path' => '画像のアップロードに失敗しました。'])
@@ -134,7 +141,13 @@ class ToolController extends Controller
         // 新しい画像がアップロードされた場合のみ処理
         if (isset($validated['image_path'])) {
             try {
-                $newImagePath = $validated['image_path']->store('tools', 'public');
+                $file = $validated['image_path'];
+
+                // ファイル名をサニタイズ（安全なファイル名を生成）
+                $filename = time() . '_' . uniqid() . '.' . $file->getClientOriginalExtension();
+
+                // ストレージパスを検証
+                $newImagePath = $file->storeAs('tools', $filename, 'public');
             } catch (\Exception $e) {
                 return redirect()->back()
                     ->withErrors(['image_path' => '画像のアップロードに失敗しました。'])

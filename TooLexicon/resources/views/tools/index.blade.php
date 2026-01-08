@@ -45,8 +45,8 @@
                                 @if($tool->image_path)
                                     <img src="{{ asset('storage/'.$tool->image_path) }}" class="block h-full w-full object-cover" alt="{{ $tool->official_name }}"/>
                                 @else
-                                    <div class="flex h-full w-full items-center justify-center bg-gray-200 dark:bg-gray-700">
-                                        <x-icon name="image" class="w-12 h-12 text-gray-400"/>
+                                    <div class="flex flex-col h-full w-full items-center justify-center text-gray-400 bg-gray-200 dark:bg-gray-700">
+                                        <x-icon name="image" class="w-12 h-12"/>no-image
                                     </div>
                                 @endif
                             </div>

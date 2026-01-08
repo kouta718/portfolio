@@ -17,8 +17,8 @@
                 @if($tool->image_path)
                     <img src="{{ asset('storage/'.$tool->image_path) }}" class="block h-full max-h-[480px] w-full object-contain" alt="{{ $tool->official_name }}"/>
                 @else
-                    <div class="flex h-full w-full items-center justify-center bg-gray-200 dark:bg-gray-700">
-                        <x-icon name="image" class="w-16 h-16 text-gray-400"/>
+                    <div class="flex flex-col h-full w-full items-center justify-center text-gray-400 bg-gray-200 dark:bg-gray-700">
+                        <x-icon name="image" class="w-16 h-16"/>no-image
                     </div>
                 @endif
             </div>
@@ -28,6 +28,7 @@
                     <h1 class="ml-4 flex-1 text-2xl font-semibold text-gray-700 dark:text-gray-300 md:text-3xl">
                         {{$tool->official_name}}
                     </h1>
+                    @auth
                     <div class="flex gap-2 ml-auto">
                         <a href="{{route('tools.edit', $tool)}}" class="flex-1 md:flex-none">
                             <x-primary-button class="w-full items-center gap-1 md:w-auto">
@@ -44,6 +45,7 @@
                             </x-danger-button>
                         </form>
                     </div>
+                    @endauth
                 </div>
 
                 <hr class="w-full mt-2">

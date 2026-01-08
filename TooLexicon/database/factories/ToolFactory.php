@@ -23,6 +23,8 @@ class ToolFactory extends Factory
             'category'      => fake()->randomElement(['切削', '締結', '測定', '研磨']),
             'usage'         => fake()->sentence(),
             'safety_notes'  => fake()->sentence(),
+            'amazon_url'    => 'https://www.amazon.co.jp/',
+            'monotaro_url'  => 'https://www.monotaro.com/',
         ];
     }
 }
