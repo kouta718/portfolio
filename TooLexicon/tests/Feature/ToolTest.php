@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use App\Models\Tool;
+use Database\Seeders\ToolSeeder;
 
 // ゲストでの操作
 describe('Tools as guest', function () {
@@ -47,21 +48,21 @@ describe('Tools as authenticated user', function () {
     // 登録したデータを編集・更新
     it('edit and update tool data', function () {
         $toolData = Tool::factory()->create();
-        
+
         $response = $this->put("/tools/{$toolData->id}", [
             'official_name' => '変更後',
         ]);
-        
+
         $this->assertDatabaseHas('tools', [
             'id' => $toolData->id,
             'official_name' => '変更後',
         ]);
-        
+
         $response = $this->post("/tools/{$toolData->id}/names", [
             'tool_id' => $toolData->id,
             'name' => '追加名',
         ]);
-        
+
         $this->assertDatabaseHas('tool_names', [
             'tool_id' => $toolData->id,
             'name' => '追加名',

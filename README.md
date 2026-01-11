@@ -59,6 +59,7 @@
 
 - Docker / Laravel Sail
 - Laravel Breeze（認証）
+- Pest（テストフレームワーク）
 
 ---
 
@@ -124,6 +125,23 @@ composer install
 
 - アプリケーション: [http://localhost](http://localhost/)
 - Vite開発サーバー: [http://localhost:5173](http://localhost:5173/)
+
+---
+
+## テスト（Testing）
+
+- フレームワーク: Pest
+- 実行方法:
+```bash
+# Laravel Sail環境でのテスト実行
+./vendor/bin/sail artisan test
+
+# 基本機能のテストファイルのみ実行
+./vendor/bin/sail artisan test tests/Feature/ToolTest.php
+```
+
+- ToolTest.php: 工具機能の主要操作をゲスト／認証ユーザー両方でテスト
+- テストデータ: テスト実行時に作成されるデータは一時的なもので、各テスト終了後に自動的に破棄されます（`RefreshDatabase` トレイト使用）
 
 ---
 
