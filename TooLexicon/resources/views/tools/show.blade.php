@@ -53,9 +53,9 @@
                 {{-- 別名（呼び名） --}}
                 <div class="p-2 mt-4 rounded-md">
                     <x-input-label class="block p-1 font-semibold">別名</x-input-label>
-                    <div class="flex flex-wrap ">
+                    <div class="flex flex-wrap">
                         @foreach($tool->toolNames as $i => $name)
-                            <x-text-block class="mr-2">
+                            <x-text-block class="mb-2 mr-2">
                                 {{ $name->name }}
                             </x-text-block>
                         @endforeach
@@ -63,7 +63,7 @@
                 </div>
 
                 {{-- カテゴリ --}}
-                <div class="p-2 mt-4 rounded-md">
+                <div class="p-2 mt-2 rounded-md">
                     <x-input-label class="block p-1 font-semibold">カテゴリ</x-input-label>
                     <x-text-block>
                         {{ $tool->category ?? '未設定' }}
