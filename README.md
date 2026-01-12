@@ -66,13 +66,14 @@
 ## 画面イメージ（Screenshots）
 
 - 一覧画面
-<img width="1920" height="1080" alt="index" src="https://github.com/user-attachments/assets/a59a7e7b-f999-44e3-b3a2-4d28f3bb6a00" />
+  <img width="1920" height="1080" alt="index" src="https://github.com/user-attachments/assets/a59a7e7b-f999-44e3-b3a2-4d28f3bb6a00" />
 - 詳細画面
-<img width="1920" height="1080" alt="show" src="https://github.com/user-attachments/assets/44642489-809b-476b-96dd-49bf72dba23c" />
+  <img width="1920" height="1080" alt="show" src="https://github.com/user-attachments/assets/44642489-809b-476b-96dd-49bf72dba23c" />
 - 登録 / 編集画面
-<img width="1920" height="1080" alt="create-edit" src="https://github.com/user-attachments/assets/8e0051db-3888-481f-b3cb-d44cac9d5026" />
+  <img width="1920" height="1080" alt="create-edit" src="https://github.com/user-attachments/assets/8e0051db-3888-481f-b3cb-d44cac9d5026" />
 - スマホ画面（一覧）
-<img width="382" height="822" alt="13)" src="https://github.com/user-attachments/assets/0202a68e-f9be-47ae-9506-21765b2231d1" />
+
+  <img width="382" height="822" alt="13)" src="https://github.com/user-attachments/assets/0202a68e-f9be-47ae-9506-21765b2231d1" />
 
 ---
 
