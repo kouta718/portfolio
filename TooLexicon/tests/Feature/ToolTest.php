@@ -2,6 +2,7 @@
 
 use App\Models\User;
 use App\Models\Tool;
+use App\Models\ToolName;
 use Database\Seeders\ToolSeeder;
 
 // ゲストでの操作
@@ -37,36 +38,64 @@ describe('Tools as authenticated user', function () {
     // 名称（別名）を新規登録
     it('create tool data', function () {
         $toolData = Tool::factory()->make()->toArray();
+        $toolNameData = ToolName::factory()->make()->toArray();
 
-        $response = $this->post('/tools', $toolData);
-        $response->assertRedirect('/tools');
+        // tool_namesを配列形式で統合
+        $requestData = array_merge($toolData, [
+            'tool_names' => [
+                [
+                    'name' => $toolNameData['name'],
+                    'is_primary' => $toolNameData['is_primary'] ?? false,
+                ]
+            ]
+        ]);
+
+        $response = $this->post('/tools', $requestData);
+        $response->assertRedirect('/tools');    
         $this->assertDatabaseHas('tools', [
             'official_name' => $toolData['official_name'],
+        ]);
+        $this->assertDatabaseHas('tool_names', [
+            'name' => $toolNameData['name'],
         ]);
     });
 
     // 登録したデータを編集・更新
     it('edit and update tool data', function () {
-        $toolData = Tool::factory()->create();
-
+        $toolData = Tool::factory()->hasToolNames(3)->create();
+        
+        // 既存のtool_namesを取得して、1つ追加
+        $existingToolNames = $toolData->toolNames->take(2)->map(function ($toolName) {
+            return [
+                'name' => $toolName->name,
+                'is_primary' => $toolName->is_primary,
+            ];
+        })->toArray();
+        
+        // 新しいtool_nameを追加
+        $existingToolNames[] = [
+            'name' => '追加名',
+            'is_primary' => false,
+        ];
+        
         $response = $this->put("/tools/{$toolData->id}", [
             'official_name' => '変更後',
+            'tool_names' => $existingToolNames,
         ]);
+
+        $response->assertRedirect("/tools/{$toolData->id}");
 
         $this->assertDatabaseHas('tools', [
             'id' => $toolData->id,
             'official_name' => '変更後',
         ]);
-
-        $response = $this->post("/tools/{$toolData->id}/names", [
-            'tool_id' => $toolData->id,
-            'name' => '追加名',
-        ]);
-
+        
+        // 追加したtool_nameが存在することを確認
         $this->assertDatabaseHas('tool_names', [
             'tool_id' => $toolData->id,
             'name' => '追加名',
         ]);
+        
     });
 
     // 検索（本名・別名で検索）
