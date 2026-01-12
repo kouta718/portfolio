@@ -75,3 +75,23 @@ if (imageInput) {
         }
     });
 }
+
+// ====================
+// フォーム送信前処理
+// ====================
+// フォーム送信前に空のnameフィールドを持つtool_names項目を削除
+const toolForm = document.getElementById('tool-form');
+if (toolForm) {
+    toolForm.addEventListener('submit', function(e) {
+        const container = document.getElementById('tool-names-container');
+        if (container) {
+            const toolNameItems = container.querySelectorAll('.tool-name-item');
+            toolNameItems.forEach(item => {
+                const nameInput = item.querySelector('input[name*="[name]"]');
+                if (nameInput && !nameInput.value.trim()) {
+                    item.remove();
+                }
+            });
+        }
+    });
+}

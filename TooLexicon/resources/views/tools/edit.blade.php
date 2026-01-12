@@ -11,7 +11,16 @@
                 {{ session('success') }}
             </div>
         @endif
-        <form method="POST" action="{{ route('tools.update', $tool)}}" enctype="multipart/form-data">@csrf
+        @if($errors->any())
+            <div class="mb-4 rounded-lg bg-red-100 p-4 font-semibold text-red-700 dark:bg-red-800 dark:text-red-300">
+                <ul class="list-disc list-inside">
+                    @foreach($errors->all() as $error)
+                        <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+        @endif
+        <form method="POST" action="{{ route('tools.update', $tool)}}" enctype="multipart/form-data" id="tool-form">@csrf
             @method('patch')
 
             <div class="flex gap-6 flex-col sm:flex-row-reverse">
@@ -99,14 +108,14 @@
                                 </div>
 
                                 {{-- 代表チェック --}}
-                                {{-- <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                                <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 hidden">
                                     <input type="checkbox"
                                         name="tool_names[{{ $i }}][is_primary]"
                                         value="1"
                                         class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:border-gray-600 dark:focus:ring-indigo-600"
                                         {{ old('tool_names.'.$i.'.is_primary', $name->is_primary) ? 'checked' : '' }}>
                                     <span>代表</span>
-                                </label> --}}
+                                </label>
 
                                 {{-- 削除ボタン --}}
                                 <x-danger-button class="remove-tool-name">
@@ -158,14 +167,14 @@
                                     </div>
 
                                     {{-- 代表チェック --}}
-                                    {{-- <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                                    <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 hidden">
                                         <input type="checkbox"
                                             name="tool_names[__index__][is_primary]"
                                             value="1"
                                             class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:border-gray-600 dark:focus:ring-indigo-600"
                                             {{ old('tool_names.__index__.is_primary') ? 'checked' : '' }}>
                                         <span>代表</span>
-                                    </label> --}}
+                                    </label>
 
                                     {{-- 削除ボタン --}}
                                     <x-danger-button class="remove-tool-name">
@@ -226,7 +235,7 @@
             </div>
 
             <x-primary-button class="mt-4 ml-2">
-                登録する
+                保存する
             </x-primary-button>
         </form>
     </div>

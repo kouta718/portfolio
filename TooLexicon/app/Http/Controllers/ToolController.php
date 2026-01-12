@@ -135,7 +135,7 @@ class ToolController extends Controller
         $validated = $request->validated();
 
         // 古い画像パスを保存
-        $oldImagePath = $tool->image_path;
+        $oldImagePath = $tool->image_path ?? null;
         $newImagePath = $oldImagePath; // デフォルトは既存のパス
 
         // 新しい画像がアップロードされた場合のみ処理

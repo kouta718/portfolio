@@ -9,11 +9,8 @@ Route::get('/', function () {
     return redirect()->route('tools.index');
 });
 
-// ゲスト閲覧可能
-
-
+// ゲスト一覧閲覧
 Route::get('/tools', [ToolController::class, 'index'])->name('tools.index');
-Route::get('/tools/{tool}', [ToolController::class, 'show'])->name('tools.show');
 
 Route::middleware('auth', 'verified')->group(function () {
     Route::get('/dashboard', function () {
@@ -28,8 +25,11 @@ Route::middleware('auth', 'verified')->group(function () {
     Route::get('/tools/create', [ToolController::class, 'create'])->name('tools.create');
     Route::post('/tools', [ToolController::class, 'store'])->name('tools.store');
     Route::get('/tools/{tool}/edit', [ToolController::class, 'edit'])->name('tools.edit');
-    Route::put('/tools/{tool}', [ToolController::class, 'update'])->name('tools.update');
+    Route::patch('/tools/{tool}', [ToolController::class, 'update'])->name('tools.update');
     Route::delete('/tools/{tool}', [ToolController::class, 'destroy'])->name('tools.destroy');
 });
+
+// ゲスト詳細閲覧
+Route::get('/tools/{tool}', [ToolController::class, 'show'])->name('tools.show');
 
 require __DIR__.'/auth.php';

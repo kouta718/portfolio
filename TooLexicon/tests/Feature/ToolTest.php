@@ -78,7 +78,7 @@ describe('Tools as authenticated user', function () {
             'is_primary' => false,
         ];
         
-        $response = $this->put("/tools/{$toolData->id}", [
+        $response = $this->patch("/tools/{$toolData->id}", [
             'official_name' => '変更後',
             'tool_names' => $existingToolNames,
         ]);

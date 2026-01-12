@@ -97,14 +97,14 @@
                                 </div>
 
                                 {{-- 代表チェック --}}
-                                {{-- <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                                <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 hidden">
                                     <input type="checkbox"
                                         name="tool_names[0][is_primary]"
                                         value="1"
                                         class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:border-gray-600 dark:focus:ring-indigo-600"
                                         {{ old('tool_names.0.is_primary') ? 'checked' : '' }}>
                                     <span>代表</span>
-                                </label> --}}
+                                </label>
 
                                 {{-- 削除ボタン --}}
                                 <x-danger-button class="remove-tool-name">
@@ -130,14 +130,14 @@
                                     </div>
 
                                     {{-- 代表チェック --}}
-                                    {{-- <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300">
+                                    <label class="flex items-center gap-2 text-sm text-gray-700 dark:text-gray-300 hidden">
                                         <input type="checkbox"
                                             name="tool_names[__index__][is_primary]"
                                             value="1"
                                             class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500 dark:border-gray-600 dark:focus:ring-indigo-600"
                                             {{ old('tool_names.__index__.is_primary') ? 'checked' : '' }}>
                                         <span>代表</span>
-                                    </label> --}}
+                                    </label>
 
                                     {{-- 削除ボタン --}}
                                     <x-danger-button class="remove-tool-name">
