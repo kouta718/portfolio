@@ -56,8 +56,11 @@ class ToolController extends Controller
                 // ストレージパスを検証
                 $imagePath = $file->storeAs('tools', $filename, 'public');
             } catch (\Exception $e) {
+                // ログに本当の理由を書き出す
+                \Log::error('Upload Error: ' . $e->getMessage());
+            
                 return redirect()->back()
-                    ->withErrors(['image_path' => '画像のアップロードに失敗しました。'])
+                    ->withErrors(['image_path' => 'エラー詳細: ' . $e->getMessage()]) // 画面にも一時的に出す
                     ->withInput();
             }
         }

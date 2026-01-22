@@ -1,0 +1,55 @@
+# fly.toml app configuration file generated for toolexicon on 2026-01-21T20:53:57+09:00
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'toolexicon'
+primary_region = 'nrt'
+console_command = 'php /var/www/html/artisan tinker'
+
+[build]
+  [build.args]
+    NODE_VERSION = '18'
+    PHP_VERSION = '8.2'
+
+[env]
+  APP_URL = "https://toolexicon.fly.dev"
+  APP_ENV = "production"
+  APP_DEBUG = "false"
+  APP_TIMEZONE = "Asia/Tokyo"
+  APP_LOCALE = "ja"
+  APP_FALLBACK_LOCALE = "en"
+  APP_FAKER_LOCALE = "ja_JP"
+  ASSET_URL = "https://toolexicon.fly.dev"
+  LOG_CHANNEL = "stderr"
+  LOG_LEVEL = "info"
+  LOG_STDERR_FORMATTER = "Monolog\\Formatter\\JsonFormatter"
+  SESSION_DRIVER = "cookie"
+  SESSION_SECURE_COOKIE = "true"
+  DB_CONNECTION = "pgsql"
+  DATABASE_URL = "DATABASE_URL"
+  MAIL_MAILER = "smtp"
+  MAIL_HOST = "smtp.gmail.com"
+  MAIL_PORT = "587"
+  MAIL_USERNAME = "MAIL_USERNAME"
+  MAIL_ENCRYPTION = "tls"
+  MAIL_FROM_ADDRESS = "MAIL_FROM_ADDRESS"
+  MAIL_FROM_NAME = "ToolLexicon"
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = 'stop'
+  auto_start_machines = true
+  min_machines_running = 0
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpus = 1
+  memory_mb = 1024
+
+[[mounts]]
+  source = "laravel_storage"
+  destination = "/var/www/html/storage/app/public"
+  processes = ["app"]
