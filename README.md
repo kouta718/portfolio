@@ -75,6 +75,11 @@
 
   <img width="382" height="822" alt="13)" src="https://github.com/user-attachments/assets/0202a68e-f9be-47ae-9506-21765b2231d1" />
 
+### ER図（Screenshots）
+<img width="1221" height="814" alt="スクリーンショット (20)" src="https://github.com/user-attachments/assets/def5be79-f2b6-4b50-a004-8da3103d0f31" />
+基本機能の「探してすぐ見つかる」体験を重視し、初期段階では拡張前提でテーブル構成をシンプルにしています。
+今後は検索機能の強化を目的として、タグ管理や検索用テーブルの追加などを想定しています。
+
 ---
 
 ## 環境構築（Setup）
