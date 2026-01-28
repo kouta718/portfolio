@@ -13,6 +13,14 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware): void {
         // Fly.ioなどのプロキシを通る際に、正しいプロトコル(https)を認識させる
         $middleware->trustProxies(at: '*');
+
+        // 信頼するヘッダーをすべて許可する
+        $middleware->trustProxies(headers: \Illuminate\Http\Request::HEADER_X_FORWARDED_FOR |
+            \Illuminate\Http\Request::HEADER_X_FORWARDED_HOST |
+            \Illuminate\Http\Request::HEADER_X_FORWARDED_PORT |
+            \Illuminate\Http\Request::HEADER_X_FORWARDED_PROTO |
+            \Illuminate\Http\Request::HEADER_X_FORWARDED_AWS_ELB
+        );
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
